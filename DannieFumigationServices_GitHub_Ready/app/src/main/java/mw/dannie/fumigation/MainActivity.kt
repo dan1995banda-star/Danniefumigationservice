@@ -3,11 +3,16 @@ package mw.dannie.fumigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -38,20 +43,32 @@ fun HomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 24.dp, vertical = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        // Company logo
+        Image(
+            painter = painterResource(id = R.drawable.dannie_logo),
+            contentDescription = "Dannie Fumigation Services Logo",
+            modifier = Modifier
+                .size(120.dp)
+                .padding(bottom = 20.dp)
+        )
 
         Text(
             text = "Dannie Fumigation Services",
-            fontSize = 28.sp
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            text = "Professional Pest Control & Fumigation"
+            text = "Professional Pest Control & Fumigation",
+            fontSize = 16.sp,
+            textAlign = TextAlign.Center
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -60,20 +77,42 @@ fun HomeScreen() {
             onClick = {
                 // Booking screen will be added next
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(54.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Book a Service")
+            Text(
+                text = "BOOK A SERVICE",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         OutlinedButton(
             onClick = {
                 // Services screen will be added next
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(54.dp),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("View Our Services")
+            Text(
+                text = "OUR SERVICES",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
+
+        Spacer(modifier = Modifier.height(28.dp))
+
+        Text(
+            text = "Reliable • Professional • Affordable",
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center
+        )
     }
 }
