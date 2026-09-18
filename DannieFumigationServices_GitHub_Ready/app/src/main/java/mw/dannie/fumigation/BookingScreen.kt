@@ -1,15 +1,15 @@
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.ui.platform.LocalContext
-import android.widget.Toast
 package mw.dannie.fumigation
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
@@ -19,8 +19,10 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingScreen(
-    onBack: (val context = LocalContext.current) -> Unit
+    onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+
     var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var propertyType by remember { mutableStateOf("") }
@@ -320,70 +322,61 @@ fun BookingScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-    onClick = {
+            onClick = {
 
-        if (
-            name.isBlank() ||
-            phone.isBlank() ||
-            propertyType.isBlank() ||
-            service.isBlank() ||
-            date.isBlank() ||
-            time.isBlank() ||
-            address.isBlank()
-        ) {
-            Toast.makeText(
-                context,
-                "Please complete all required fields.",
-                Toast.LENGTH_LONG
-            ).show()
+                if (
+                    name.isBlank() ||
+                    phone.isBlank() ||
+                    propertyType.isBlank() ||
+                    service.isBlank() ||
+                    date.isBlank() ||
+                    time.isBlank() ||
+                    address.isBlank()
+                ) {
+                    Toast.makeText(
+                        context,
+                        "Please complete all required fields.",
+                        Toast.LENGTH_LONG
+                    ).show()
 
-            return@Button
-        }
+                    return@Button
+                }
 
-        val message = """
-            *DANNIE FUMIGATION SERVICES*
-            
-            *NEW SERVICE BOOKING*
-            
-            Name: $name
-            Phone: $phone
-            Property Type: $propertyType
-            Service: $service
-            Date: $date
-            Time: $time
-            Address: $address
-            
-            Additional Notes:
-            ${notes.ifBlank { "None" }}
-        """.trimIndent()
+                val message = """
+                    *DANNIE FUMIGATION SERVICES*
+                    
+                    *NEW SERVICE BOOKING*
+                    
+                    Name: $name
+                    Phone: $phone
+                    Property Type: $propertyType
+                    Service: $service
+                    Date: $date
+                    Time: $time
+                    Address: $address
+                    
+                    Additional Notes:
+                    ${notes.ifBlank { "None" }}
+                """.trimIndent()
 
-        val encodedMessage = Uri.encode(message)
+                val encodedMessage = Uri.encode(message)
 
-        val whatsappIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(
-                "https://wa.me/265885769227?text=$encodedMessage"
-            )
-        )
+                val whatsappIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(
+                        "https://wa.me/265885769227?text=$encodedMessage"
+                    )
+                )
 
-        context.startActivity(whatsappIntent)
-    },
-    modifier = Modifier
-        .fillMaxWidth()
-        .height(56.dp)
-) {
-    Text(
-        text = "SEND BOOKING ON WHATSAPP",
-        fontSize = 15.sp
-    )
-},
+                context.startActivity(whatsappIntent)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
         ) {
             Text(
-                text = "SUBMIT BOOKING",
-                fontSize = 16.sp
+                text = "SEND BOOKING ON WHATSAPP",
+                fontSize = 15.sp
             )
         }
 
