@@ -11,21 +11,54 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check files
+        run: |
+          echo "Current directory:"
+          pwd
+          echo ""
+          echo "Files:"
+          ls -la
+          echo ""
+          echo "Repository status:"
+          git status
 
       - name: Move Android project to root
         run: |
           if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
+            echo "Found Android project folder."
             cp -a DannieFumigationServices_GitHub_Ready/. .
             rm -rf DannieFumigationServices_GitHub_Ready
+          else
+            echo "Android project folder not found."
           fi
-          rm -f DannieFumigationServices_GitHub_Ready.zip
+
+          if [ -f "DannieFumigationServices_GitHub_Ready.zip" ]; then
+            rm -f DannieFumigationServices_GitHub_Ready.zip
+          fi
+
+      - name: Show changes
+        run: |
+          echo "Git status after moving files:"
+          git status
+          echo ""
+          echo "Changed files:"
+          git diff --stat
 
       - name: Commit changes
         run: |
           git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add -A
-          git commit -m "Fix Android project structure" || echo "Nothing to commit"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+          else
+            git commit -m "Fix Android project structure"
+            git push origin HEAD
+          fi
