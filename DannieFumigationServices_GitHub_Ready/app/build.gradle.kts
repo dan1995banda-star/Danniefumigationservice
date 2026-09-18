@@ -1,6 +1,8 @@
 plugins { id("com.android.application"); id("org.jetbrains.kotlin.android"); id("org.jetbrains.kotlin.plugin.compose") }
 android { namespace="mw.dannie.fumigation"; compileSdk=35
  defaultConfig { applicationId="mw.dannie.fumigation"; minSdk=24; targetSdk=35; versionCode=3; versionName="2.1" }
+}buildFeatures {
+    compose = true
 }
 dependencies {
  implementation(platform("androidx.compose:compose-bom:2024.12.01"))
