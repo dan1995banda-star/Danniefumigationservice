@@ -8,7 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingScreen(
     onBack: () -> Unit
@@ -21,6 +25,81 @@ fun BookingScreen(
     var time by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
     var notes by remember { mutableStateOf("") }
+
+    var propertyExpanded by remember { mutableStateOf(false) }
+    var serviceExpanded by remember { mutableStateOf(false) }
+    var timeExpanded by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    val propertyTypes = listOf(
+        "House",
+        "Office",
+        "Shop",
+        "Warehouse",
+        "Restaurant",
+        "Other"
+    )
+
+    val services = listOf(
+        "General Fumigation",
+        "Cockroach Control",
+        "Bed Bug Control",
+        "Termite Control",
+        "Rodent Control",
+        "Commercial Pest Control"
+    )
+
+    val times = listOf(
+        "08:00 AM",
+        "09:00 AM",
+        "10:00 AM",
+        "11:00 AM",
+        "12:00 PM",
+        "01:00 PM",
+        "02:00 PM",
+        "03:00 PM",
+        "04:00 PM"
+    )
+
+    val datePickerState = rememberDatePickerState()
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = {
+                showDatePicker = false
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val formatter = SimpleDateFormat(
+                                "dd/MM/yyyy",
+                                Locale.getDefault()
+                            )
+                            date = formatter.format(Date(millis))
+                        }
+
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("CANCEL")
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState
+            )
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -52,7 +131,8 @@ fun BookingScreen(
             value = name,
             onValueChange = { name = it },
             label = { Text("Full Name") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -61,56 +141,155 @@ fun BookingScreen(
             value = phone,
             onValueChange = { phone = it },
             label = { Text("Phone Number") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = propertyType,
-            onValueChange = { propertyType = it },
-            label = { Text("Property Type") },
-            placeholder = {
-                Text("House, Office, Shop, Warehouse...")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+        ExposedDropdownMenuBox(
+            expanded = propertyExpanded,
+            onExpandedChange = {
+                propertyExpanded = !propertyExpanded
+            }
+        ) {
+            OutlinedTextField(
+                value = propertyType,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Property Type") },
+                placeholder = { Text("Select property type") },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = propertyExpanded
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = propertyExpanded,
+                onDismissRequest = {
+                    propertyExpanded = false
+                }
+            ) {
+                propertyTypes.forEach { type ->
+                    DropdownMenuItem(
+                        text = { Text(type) },
+                        onClick = {
+                            propertyType = type
+                            propertyExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = service,
-            onValueChange = { service = it },
-            label = { Text("Service Required") },
-            placeholder = {
-                Text("Fumigation, Pest Control, etc.")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+        ExposedDropdownMenuBox(
+            expanded = serviceExpanded,
+            onExpandedChange = {
+                serviceExpanded = !serviceExpanded
+            }
+        ) {
+            OutlinedTextField(
+                value = service,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Service Required") },
+                placeholder = { Text("Select a service") },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = serviceExpanded
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = serviceExpanded,
+                onDismissRequest = {
+                    serviceExpanded = false
+                }
+            ) {
+                services.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(item) },
+                        onClick = {
+                            service = item
+                            serviceExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
             value = date,
-            onValueChange = { date = it },
+            onValueChange = {},
+            readOnly = true,
             label = { Text("Preferred Date") },
-            placeholder = {
-                Text("DD/MM/YYYY")
-            },
-            modifier = Modifier.fillMaxWidth()
+            placeholder = { Text("Select a date") },
+            modifier = Modifier.fillMaxWidth(),
+            trailingIcon = {
+                TextButton(
+                    onClick = {
+                        showDatePicker = true
+                    }
+                ) {
+                    Text("SELECT")
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        OutlinedTextField(
-            value = time,
-            onValueChange = { time = it },
-            label = { Text("Preferred Time") },
-            placeholder = {
-                Text("Example: 09:00 AM")
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
+        ExposedDropdownMenuBox(
+            expanded = timeExpanded,
+            onExpandedChange = {
+                timeExpanded = !timeExpanded
+            }
+        ) {
+            OutlinedTextField(
+                value = time,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Preferred Time") },
+                placeholder = { Text("Select a time") },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = timeExpanded
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = timeExpanded,
+                onDismissRequest = {
+                    timeExpanded = false
+                }
+            ) {
+                times.forEach { selectedTime ->
+                    DropdownMenuItem(
+                        text = { Text(selectedTime) },
+                        onClick = {
+                            time = selectedTime
+                            timeExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
