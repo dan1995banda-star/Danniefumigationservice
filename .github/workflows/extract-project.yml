@@ -1,4 +1,4 @@
-name: Fix Project Structure
+name: Create Gradle Wrapper
 
 on:
   workflow_dispatch:
@@ -7,42 +7,38 @@ permissions:
   contents: write
 
 jobs:
-  fix:
+  wrapper:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Move project to root
-        run: |
-          if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
-            cp -r DannieFumigationServices_GitHub_Ready/. .
-            rm -rf DannieFumigationServices_GitHub_Ready
-          fi
-
-      - name: Install Gradle
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
 
-      - name: Create Gradle Wrapper
+      - name: Create wrapper
+        working-directory: DannieFumigationServices_GitHub_Ready
         run: |
           gradle wrapper --gradle-version 8.11.1
           chmod +x gradlew
 
-      - name: Verify
+      - name: Check wrapper
+        working-directory: DannieFumigationServices_GitHub_Ready
         run: |
-          echo "=== PROJECT ==="
-          ls -la
-          echo "=== WRAPPER ==="
-          ls -la gradlew
-          ls -la gradle/wrapper/
+          echo "=== gradlew ==="
+          ls -l gradlew
+          echo "=== wrapper directory ==="
+          ls -l gradle/wrapper
 
-      - name: Commit
+      - name: Commit wrapper
         run: |
           git config user.name "github-actions"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Create Android Gradle wrapper" || true
+          git add DannieFumigationServices_GitHub_Ready/gradlew
+          git add DannieFumigationServices_GitHub_Ready/gradlew.bat
+          git add DannieFumigationServices_GitHub_Ready/gradle/wrapper
+          git commit -m "Add Gradle wrapper"
           git push
