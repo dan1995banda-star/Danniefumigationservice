@@ -1,49 +1,35 @@
-name: Fix Project Structure
+name: Inspect Android Project
 
 on:
   workflow_dispatch:
 
 jobs:
-  fix:
+  inspect:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show repository
+      - name: Find Android project files
         run: |
-          echo "Repository contents:"
-          find . -maxdepth 2 -type f | sort
+          echo "===== ROOT ====="
+          ls -la
 
-      - name: Prepare Android project
-        run: |
-          if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
-            echo "Android project found."
+          echo ""
+          echo "===== ALL IMPORTANT FILES ====="
 
-            cp -a DannieFumigationServices_GitHub_Ready/. .
+          find . -type f \( \
+            -name "gradlew" -o \
+            -name "gradlew.bat" -o \
+            -name "settings.gradle" -o \
+            -name "settings.gradle.kts" -o \
+            -name "build.gradle" -o \
+            -name "build.gradle.kts" -o \
+            -name "AndroidManifest.xml" \
+          \) -print
 
-            echo "Android project copied to root."
-          else
-            echo "DannieFumigationServices_GitHub_Ready folder was not found."
-          fi
+          echo ""
+          echo "===== DIRECTORIES ====="
 
-      - name: Check Android files
-        run: |
-          echo "Checking for Gradle files..."
-
-          if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
-            echo "Gradle settings file found."
-          else
-            echo "ERROR: No Gradle settings file found."
-            exit 1
-          fi
-
-          if [ -f "gradlew" ]; then
-            echo "Gradle wrapper found."
-          else
-            echo "ERROR: gradlew not found."
-            exit 1
-          fi
-
-          echo "Project structure looks ready."
+          find . -maxdepth 3 -type d | sort
