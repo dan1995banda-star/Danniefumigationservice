@@ -15,6 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,18 +31,45 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DannieFumigationApp() {
+
+    val navController = rememberNavController()
+
     MaterialTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            HomeScreen()
+
+            NavHost(
+                navController = navController,
+                startDestination = "home"
+            ) {
+
+                composable("home") {
+                    HomeScreen(
+                        onBookService = {
+                            navController.navigate("booking")
+                        }
+                    )
+                }
+
+                composable("booking") {
+                    BookingScreen(
+                        onBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onBookService: () -> Unit
+) {
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +77,6 @@ fun HomeScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // Company logo
         Image(
             painter = painterResource(id = R.drawable.dannie_logo),
             contentDescription = "Dannie Fumigation Services Logo",
@@ -74,9 +103,7 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = {
-                // Booking screen will be added next
-            },
+            onClick = onBookService,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp),
