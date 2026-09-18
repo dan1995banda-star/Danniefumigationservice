@@ -30,11 +30,22 @@ jobs:
         run: |
           echo "=== gradlew ==="
           ls -l gradlew
+          echo "=== gradlew.bat ==="
+          ls -l gradlew.bat
           echo "=== wrapper directory ==="
           ls -l gradle/wrapper
 
       - name: Commit wrapper
         run: |
+          git config user.name "github-actions"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add DannieFumigationServices_GitHub_Ready/gradlew
+          git add DannieFumigationServices_GitHub_Ready/gradlew.bat
+          git add DannieFumigationServices_GitHub_Ready/gradle/wrapper
+
+          git diff --cached --quiet || git commit -m "Add Gradle wrapper"
+          git push        run: |
           git config user.name "github-actions"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add DannieFumigationServices_GitHub_Ready/gradlew
