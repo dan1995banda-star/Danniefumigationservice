@@ -19,7 +19,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingScreen(
-    onBack: () -> Unit
+    onBack: (val context = LocalContext.current) -> Unit
 ) {
     var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
