@@ -1,4 +1,4 @@
-name: Extract Android Project
+name: Fix Project Structure
 
 on:
   workflow_dispatch:
@@ -7,24 +7,25 @@ permissions:
   contents: write
 
 jobs:
-  extract:
+  fix:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract project ZIP
+      - name: Move Android project to root
         run: |
-          unzip -o DannieFumigationServices_GitHub_Ready.zip -d extracted
-          cp -r extracted/. .
-          rm -rf extracted
+          if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
+            cp -a DannieFumigationServices_GitHub_Ready/. .
+            rm -rf DannieFumigationServices_GitHub_Ready
+          fi
           rm -f DannieFumigationServices_GitHub_Ready.zip
 
-      - name: Commit project files
+      - name: Commit changes
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add -A
-          git commit -m "Extract Android project" || echo "Nothing to commit"
+          git commit -m "Fix Android project structure" || echo "Nothing to commit"
           git push
