@@ -1,13 +1,16 @@
 <resources>
-    <style name="Theme.Dannie" parent="Theme.Material.Light.NoActionBar">
+
+    <style name="Theme.Dannie" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:statusBarColor">#061A2A</item>
         <item name="android:navigationBarColor">#061A2A</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
+
     <style name="Theme.Dannie.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#061A2A</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/dannie_splash_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Dannie</item>
     </style>
+
 </resources>
