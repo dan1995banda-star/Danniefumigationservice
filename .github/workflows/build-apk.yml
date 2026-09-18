@@ -1,4 +1,4 @@
-name: Build Android APK
+ bbcname: Build Android APK
 
 on:
   workflow_dispatch:
@@ -41,9 +41,10 @@ jobs:
         working-directory: ${{ steps.project.outputs.dir }}
         run: chmod +x gradlew
 
-      - name: Build APK
+           - name: Build APK
         working-directory: ${{ steps.project.outputs.dir }}
-        run: ./gradlew assembleDebug
+        run: |
+          ./gradlew assembleDebug --stacktrace --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
