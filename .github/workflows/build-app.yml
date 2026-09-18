@@ -21,8 +21,7 @@ jobs:
           if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
             echo "dir=." >> "$GITHUB_OUTPUT"
           else
-            PROJECT_DIR=$(find . -name "settings.gradle" -o -name "settings.gradle.kts" | head -1 | xargs dirname)
-
+            PROJECT_DIR=$(find . -name "settings.gradle" -o -name "settings.gradle.kts" | head -1 | xargs dirname) 
             if [ -z "$PROJECT_DIR" ]; then
               echo "ERROR: Android Gradle project not found."
               exit 1
