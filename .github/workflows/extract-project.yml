@@ -1,35 +1,13 @@
-name: Inspect Android Project
-
-on:
-  workflow_dispatch:
-
-jobs:
-  inspect:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Find Android project files
+      - name: Inspect Android project
         run: |
-          echo "===== ROOT ====="
-          ls -la
+          echo "=== Project files ==="
+          find . -maxdepth 4 -type f | sort
 
-          echo ""
-          echo "===== ALL IMPORTANT FILES ====="
+          echo "=== Gradle wrapper ==="
+          find . -type f -name "gradlew" -print
 
-          find . -type f \( \
-            -name "gradlew" -o \
-            -name "gradlew.bat" -o \
-            -name "settings.gradle" -o \
-            -name "settings.gradle.kts" -o \
-            -name "build.gradle" -o \
-            -name "build.gradle.kts" -o \
-            -name "AndroidManifest.xml" \
-          \) -print
+          echo "=== Gradle settings ==="
+          find . -type f \( -name "settings.gradle" -o -name "settings.gradle.kts" \) -print
 
-          echo ""
-          echo "===== DIRECTORIES ====="
-
-          find . -maxdepth 3 -type d | sort
+          echo "=== Build files ==="
+          find . -type f \( -name "build.gradle" -o -name "build.gradle.kts" \-print
