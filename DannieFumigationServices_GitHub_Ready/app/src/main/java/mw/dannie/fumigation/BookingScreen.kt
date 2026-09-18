@@ -320,9 +320,63 @@ fun BookingScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = {
-                // Booking submission will be connected next
-            },
+    onClick = {
+
+        if (
+            name.isBlank() ||
+            phone.isBlank() ||
+            propertyType.isBlank() ||
+            service.isBlank() ||
+            date.isBlank() ||
+            time.isBlank() ||
+            address.isBlank()
+        ) {
+            Toast.makeText(
+                context,
+                "Please complete all required fields.",
+                Toast.LENGTH_LONG
+            ).show()
+
+            return@Button
+        }
+
+        val message = """
+            *DANNIE FUMIGATION SERVICES*
+            
+            *NEW SERVICE BOOKING*
+            
+            Name: $name
+            Phone: $phone
+            Property Type: $propertyType
+            Service: $service
+            Date: $date
+            Time: $time
+            Address: $address
+            
+            Additional Notes:
+            ${notes.ifBlank { "None" }}
+        """.trimIndent()
+
+        val encodedMessage = Uri.encode(message)
+
+        val whatsappIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                "https://wa.me/265885769227?text=$encodedMessage"
+            )
+        )
+
+        context.startActivity(whatsappIntent)
+    },
+    modifier = Modifier
+        .fillMaxWidth()
+        .height(56.dp)
+) {
+    Text(
+        text = "SEND BOOKING ON WHATSAPP",
+        fontSize = 15.sp
+    )
+},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
