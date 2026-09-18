@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Gradle
@@ -19,37 +19,61 @@ jobs:
         with:
           gradle-version: '8.11.1'
 
-      - name: Create wrapper
-        working-directory: DannieFumigationServices_GitHub_Ready
+      - name: Find Android project
+        id: find-project
+        shell: bash
         run: |
+          echo "Repository contents:"
+          find . -maxdepth 3 -type f | sort | head -200
+
+          if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
+            echo "project_dir=." >> "$GITHUB_OUTPUT"
+          elif [ -f "DannieFumigationServices_GitHub_Ready/settings.gradle" ] || [ -f "DannieFumigationServices_GitHub_Ready/settings.gradle.kts" ]; then
+            echo "project_dir=DannieFumigationServices_GitHub_Ready" >> "$GITHUB_OUTPUT"
+          else
+            PROJECT_DIR=$(find . -name "settings.gradle" -o -name "settings.gradle.kts" | head -1 | xargs dirname)
+
+            if [ -z "$PROJECT_DIR" ]; then
+              echo "ERROR: Could not find an Android/Gradle project."
+              exit 1
+            fi
+
+            echo "project_dir=$PROJECT_DIR" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Gradle Wrapper
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          echo "Creating Gradle Wrapper..."
           gradle wrapper --gradle-version 8.11.1
           chmod +x gradlew
 
-      - name: Check wrapper
-        working-directory: DannieFumigationServices_GitHub_Ready
+      - name: Verify Gradle Wrapper
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
         run: |
-          echo "=== gradlew ==="
-          ls -l gradlew
-          echo "=== gradlew.bat ==="
-          ls -l gradlew.bat
-          echo "=== wrapper directory ==="
-          ls -l gradle/wrapper
+          echo "=== Gradle Wrapper ==="
+          ls -la gradlew
+          ls -la gradlew.bat
 
-      - name: Commit wrapper
+          echo "=== Wrapper directory ==="
+          ls -la gradle/wrapper
+
+          echo "=== Gradle version ==="
+          ./gradlew --version
+
+      - name: Commit Gradle Wrapper
+        shell: bash
         run: |
           git config user.name "github-actions"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add DannieFumigationServices_GitHub_Ready/gradlew
-          git add DannieFumigationServices_GitHub_Ready/gradlew.bat
-          git add DannieFumigationServices_GitHub_Ready/gradle/wrapper
+          git add -A
 
-          git diff --cached --quiet || git commit -m "Add Gradle wrapper"
-          git push        run: |
-          git config user.name "github-actions"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add DannieFumigationServices_GitHub_Ready/gradlew
-          git add DannieFumigationServices_GitHub_Ready/gradlew.bat
-          git add DannieFumigationServices_GitHub_Ready/gradle/wrapper
-          git commit -m "Add Gradle wrapper"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add Gradle Wrapper"
+            git push
+          fi
