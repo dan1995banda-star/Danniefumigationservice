@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,6 +35,7 @@ fun DannieFumigationApp() {
     val navController = rememberNavController()
 
     MaterialTheme {
+
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
@@ -51,6 +53,9 @@ fun DannieFumigationApp() {
                         },
                         onServices = {
                             navController.navigate("services")
+                        },
+                        onContact = {
+                            navController.navigate("contact")
                         }
                     )
                 }
@@ -70,6 +75,14 @@ fun DannieFumigationApp() {
                         }
                     )
                 }
+
+                composable("contact") {
+                    ContactScreen(
+                        onBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
         }
     }
@@ -78,7 +91,8 @@ fun DannieFumigationApp() {
 @Composable
 fun HomeScreen(
     onBookService: () -> Unit,
-    onServices: () -> Unit
+    onServices: () -> Unit,
+    onContact: () -> Unit
 ) {
 
     Column(
@@ -138,6 +152,22 @@ fun HomeScreen(
         ) {
             Text(
                 text = "OUR SERVICES",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        OutlinedButton(
+            onClick = onContact,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(54.dp),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "CONTACT US",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
