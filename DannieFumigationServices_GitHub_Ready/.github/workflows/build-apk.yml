@@ -16,17 +16,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check files
-        run: |
-          echo "Current directory:"
-          pwd
-          echo ""
-          echo "Files:"
-          ls -la
-          echo ""
-          echo "Repository status:"
-          git status
-
       - name: Move Android project to root
         run: |
           if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
@@ -35,19 +24,19 @@ jobs:
             rm -rf DannieFumigationServices_GitHub_Ready
           else
             echo "Android project folder not found."
+            exit 1
           fi
 
-          if [ -f "DannieFumigationServices_GitHub_Ready.zip" ]; then
-            rm -f DannieFumigationServices_GitHub_Ready.zip
-          fi
-
-      - name: Show changes
+      - name: Check Android project
         run: |
-          echo "Git status after moving files:"
-          git status
+          echo "=== Root files ==="
+          ls -la
+
           echo ""
-          echo "Changed files:"
-          git diff --stat
+          echo "=== Gradle files ==="
+          find . -maxdepth 2 -type f \
+            \( -name "settings.gradle*" -o -name "build.gradle*" -o -name "gradlew" \) \
+            -print
 
       - name: Commit changes
         run: |
@@ -60,4 +49,5 @@ jobs:
             echo "Nothing to commit."
           else
             git commit -m "Fix Android project structure"
-            git push origin HEAD
+            git push origin HEAD:main
+          fi
