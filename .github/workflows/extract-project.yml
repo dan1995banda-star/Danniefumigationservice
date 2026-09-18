@@ -3,9 +3,6 @@ name: Fix Project Structure
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   fix:
     runs-on: ubuntu-latest
@@ -13,56 +10,40 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Check files
+      - name: Show repository
         run: |
-          echo "Current directory:"
-          pwd
-          echo ""
-          echo "Files:"
-          ls -la
-          echo ""
-          echo "Repository status:"
-          git status
+          echo "Repository contents:"
+          find . -maxdepth 2 -type f | sort
 
-      - name: Move Android project to root
+      - name: Prepare Android project
         run: |
           if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
-            echo "Found Android project folder."
+            echo "Android project found."
+
             cp -a DannieFumigationServices_GitHub_Ready/. .
-            rm -rf DannieFumigationServices_GitHub_Ready
+
+            echo "Android project copied to root."
           else
-            echo "Android project folder not found."
+            echo "DannieFumigationServices_GitHub_Ready folder was not found."
           fi
 
-          if [ -f "DannieFumigationServices_GitHub_Ready.zip" ]; then
-            rm -f DannieFumigationServices_GitHub_Ready.zip
-          fi
-
-      - name: Show changes
+      - name: Check Android files
         run: |
-          echo "Git status after moving files:"
-          git status
-          echo ""
-          echo "Changed files:"
-          git diff --stat
+          echo "Checking for Gradle files..."
 
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add -A
-
-          if git diff --cached --quiet; then
-            echo "Nothing to commit."
-            exit 0
+          if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
+            echo "Gradle settings file found."
+          else
+            echo "ERROR: No Gradle settings file found."
+            exit 1
           fi
 
-          git commit -m "Fix Android project structure"
+          if [ -f "gradlew" ]; then
+            echo "Gradle wrapper found."
+          else
+            echo "ERROR: gradlew not found."
+            exit 1
+          fi
 
-          git pull --rebase origin "${GITHUB_REF_NAME}"
-
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "Project structure looks ready."
