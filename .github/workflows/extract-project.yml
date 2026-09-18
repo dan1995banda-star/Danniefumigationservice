@@ -1,29 +1,42 @@
-name: Inspect Android Project
+name: Fix Project Structure
 
 on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  inspect:
+  fix:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Inspect Android project
+      - name: Move Android project to root
         run: |
-          echo "=== Project files ==="
-          find . -maxdepth 4 -type f | sort
+          if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
+            cp -a DannieFumigationServices_GitHub_Ready/. .
+            rm -rf DannieFumigationServices_GitHub_Ready
+          else
+            echo "Android project folder not found"
+            exit 1
+          fi
 
-          echo "=== Gradle wrapper ==="
-          find . -type f -name "gradlew" -print
+      - name: Check project
+        run: |
+          echo "=== Root ==="
+          ls -la
+          echo "=== Gradle files ==="
+          find . -maxdepth 2 -type f \( -name "settings.gradle*" -o -name "build.gradle*" \) -print
 
-          echo "=== Gradle settings ==="
-          find . -type f \( -name "settings.gradle" -o -name "settings.gradle.kts" \) -print
-
-          echo "=== Build files ==="
-          find . -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -print
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix Android project structure" || echo "Nothing to commit"
+          git push origin HEAD:main
