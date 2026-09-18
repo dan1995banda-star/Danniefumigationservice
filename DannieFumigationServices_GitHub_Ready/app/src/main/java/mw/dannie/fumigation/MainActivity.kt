@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -49,12 +48,23 @@ fun DannieFumigationApp() {
                     HomeScreen(
                         onBookService = {
                             navController.navigate("booking")
+                        },
+                        onServices = {
+                            navController.navigate("services")
                         }
                     )
                 }
 
                 composable("booking") {
                     BookingScreen(
+                        onBack = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+
+                composable("services") {
+                    ServicesScreen(
                         onBack = {
                             navController.popBackStack()
                         }
@@ -67,7 +77,8 @@ fun DannieFumigationApp() {
 
 @Composable
 fun HomeScreen(
-    onBookService: () -> Unit
+    onBookService: () -> Unit,
+    onServices: () -> Unit
 ) {
 
     Column(
@@ -119,9 +130,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(14.dp))
 
         OutlinedButton(
-            onClick = {
-                // Services screen will be added next
-            },
+            onClick = onServices,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp),
