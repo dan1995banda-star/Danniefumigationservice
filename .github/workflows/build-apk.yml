@@ -1,54 +1,18 @@
- bbcname: Build Android APK
+<resources>
 
-on:
-  workflow_dispatch:
+    <style name="Theme.Dannie">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:statusBarColor">#061A2A</item>
+        <item name="android:navigationBarColor">#061A2A</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
-permissions:
-  contents: read
+    <style name="Theme.Dannie.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#061A2A</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dannie_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Dannie</item>
+    </style>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Find Android project
-        id: project
-        shell: bash
-        run: |
-          if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
-            echo "dir=." >> "$GITHUB_OUTPUT"
-          else
-            PROJECT_DIR=$(find . -name "settings.gradle" -o -name "settings.gradle.kts" | head -1 | xargs dirname)
-
-            if [ -z "$PROJECT_DIR" ]; then
-              echo "ERROR: Android Gradle project not found."
-              exit 1
-            fi
-
-            echo "dir=$PROJECT_DIR" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Make Gradle executable
-        working-directory: ${{ steps.project.outputs.dir }}
-        run: chmod +x gradlew
-
-           - name: Build APK
-        working-directory: ${{ steps.project.outputs.dir }}
-        run: |
-          ./gradlew assembleDebug --stacktrace --info
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Dannie-Fumigation-Services-APK
-          path: |
-            ${{ steps.project.outputs.dir }}/app/build/outputs/apk/debug/*.apk
+</resources>
