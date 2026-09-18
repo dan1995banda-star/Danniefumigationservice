@@ -1,7 +1,8 @@
 - name: Setup Android SDK
-  uses: android-actions/setup-android@v3
-  with:
-    # Do NOT install the removed 'tools' package
-    packages: 'platform-tools'   # or whatever you actually need
-    # Optional but recommended – pin a known-good cmdline-tools revision
-    cmdline-tools-version: 12266719   # the one the action already downloaded
+  run: |
+    # The runner already has a base SDK
+    echo "sdk.dir=$ANDROID_HOME" >> $GITHUB_ENV
+    # Accept licenses (already done by the action, but safe to repeat)
+    yes | sdkmanager --licenses
+    # Install only the packages you need, e.g.
+    sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
