@@ -1,3 +1,19 @@
+name: Inspect Android Project
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Inspect Android project
         run: |
           echo "=== Project files ==="
@@ -10,4 +26,4 @@
           find . -type f \( -name "settings.gradle" -o -name "settings.gradle.kts" \) -print
 
           echo "=== Build files ==="
-          find . -type f \( -name "build.gradle" -o -name "build.gradle.kts" \-print
+          find . -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -print
