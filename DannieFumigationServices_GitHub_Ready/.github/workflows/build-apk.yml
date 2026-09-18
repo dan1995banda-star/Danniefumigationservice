@@ -1,49 +1,31 @@
-name: Build Dannie Fumigation APK
+name: Fix Project Structure
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  build:
+  fix:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out project
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK 35
+      - name: Move Android project to root
         run: |
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
-          yes | sdkmanager --licenses >/dev/null || true
+          if [ -d "DannieFumigationServices_GitHub_Ready" ]; then
+            cp -a DannieFumigationServices_GitHub_Ready/. .
+            rm -rf DannieFumigationServices_GitHub_Ready
+          fi
+          rm -f DannieFumigationServices_GitHub_Ready.zip
 
-      - name: Set up Gradle 8.9
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
-
-      - name: Create Gradle Wrapper
-        run: gradle wrapper --gradle-version 8.9 --distribution-type bin
-
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Dannie-Fumigation-debug-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add -A
+          git commit -m "Fix Android project structure" || echo "Nothing to commit"
+          git push
