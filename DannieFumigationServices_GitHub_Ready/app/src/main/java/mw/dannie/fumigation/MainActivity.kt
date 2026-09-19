@@ -7,6 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -72,52 +76,134 @@ fun HymnBookApp() {
             color = MaterialTheme.colorScheme.background
         ) {
 
-            NavHost(
-                navController = navController,
-                startDestination = "home"
-            ) {
+            Scaffold(
+                bottomBar = {
 
-                composable("home") {
+                    NavigationBar {
 
-                    HomeScreen(
-                        favoriteSongs = favoriteSongs,
-                        onSongClick = { songNumber ->
-                            navController.navigate("song/$songNumber")
-                        }
-                    )
-                }
-
-                composable("song/{songNumber}") { backStackEntry ->
-
-                    val songNumber =
-                        backStackEntry.arguments
-                            ?.getString("songNumber")
-                            ?.toIntOrNull()
-
-                    val song = SongData.songs.find {
-                        it.number == songNumber
-                    }
-
-                    if (song != null) {
-
-                        SongScreen(
-                            song = song,
-                            isFavorite = favoriteSongs.contains(song.number),
-                            onFavoriteClick = {
-
-                                val newFavorites =
-                                    if (favoriteSongs.contains(song.number)) {
-                                        favoriteSongs - song.number
-                                    } else {
-                                        favoriteSongs + song.number
+                        NavigationBarItem(
+                            selected = navController.currentBackStackEntry?.destination?.route == "home",
+                            onClick = {
+                                navController.navigate("home") {
+                                    popUpTo("home") {
+                                        inclusive = false
                                     }
-
-                                saveFavorites(newFavorites)
+                                    launchSingleTop = true
+                                }
                             },
-                            onBack = {
-                                navController.popBackStack()
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Home,
+                                    contentDescription = "Home"
+                                )
+                            },
+                            label = {
+                                Text("Home")
                             }
                         )
+
+                        NavigationBarItem(
+                            selected = navController.currentBackStackEntry?.destination?.route == "favorites",
+                            onClick = {
+                                navController.navigate("favorites") {
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Favorite,
+                                    contentDescription = "Favorites"
+                                )
+                            },
+                            label = {
+                                Text("Favorites")
+                            }
+                        )
+
+                        NavigationBarItem(
+                            selected = navController.currentBackStackEntry?.destination?.route == "about",
+                            onClick = {
+                                navController.navigate("about") {
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Info,
+                                    contentDescription = "About"
+                                )
+                            },
+                            label = {
+                                Text("About")
+                            }
+                        )
+                    }
+                }
+            ) { paddingValues ->
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "home",
+                    modifier = Modifier.padding(paddingValues)
+                ) {
+
+                    composable("home") {
+
+                        HomeScreen(
+                            favoriteSongs = favoriteSongs,
+                            onSongClick = { songNumber ->
+                                navController.navigate("song/$songNumber")
+                            }
+                        )
+                    }
+
+                    composable("favorites") {
+
+                        FavoritesScreen(
+                            favoriteSongs = favoriteSongs,
+                            onSongClick = { songNumber ->
+                                navController.navigate("song/$songNumber")
+                            }
+                        )
+                    }
+
+                    composable("about") {
+
+                        AboutScreen()
+                    }
+
+                    composable("song/{songNumber}") { backStackEntry ->
+
+                        val songNumber =
+                            backStackEntry.arguments
+                                ?.getString("songNumber")
+                                ?.toIntOrNull()
+
+                        val song = SongData.songs.find {
+                            it.number == songNumber
+                        }
+
+                        if (song != null) {
+
+                            SongScreen(
+                                song = song,
+                                isFavorite = favoriteSongs.contains(song.number),
+                                onFavoriteClick = {
+
+                                    val newFavorites =
+                                        if (favoriteSongs.contains(song.number)) {
+                                            favoriteSongs - song.number
+                                        } else {
+                                            favoriteSongs + song.number
+                                        }
+
+                                    saveFavorites(newFavorites)
+                                },
+                                onBack = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -145,10 +231,6 @@ fun HomeScreen(
                 song.englishTitle.lowercase().contains(search)
     }
 
-    val favoriteSongList = SongData.songs.filter {
-        favoriteSongs.contains(it.number)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -157,7 +239,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
         Text(
             text = "LEMEKEZANI\nMULUNGU M'NYIMBO",
@@ -192,51 +274,6 @@ fun HomeScreen(
         )
 
         Spacer(modifier = Modifier.height(25.dp))
-
-        if (favoriteSongList.isNotEmpty()) {
-
-            Text(
-                text = "⭐ FAVORITES",
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            favoriteSongList.forEach { song ->
-
-                Button(
-                    onClick = {
-                        onSongClick(song.number)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp)
-                        .height(65.dp)
-                ) {
-
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Text(
-                            text = "⭐ SONG ${song.number}",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Text(
-                            text = song.title,
-                            fontSize = 13.sp,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(25.dp))
-        }
 
         Text(
             text = "ALL SONGS",
@@ -301,6 +338,133 @@ fun HomeScreen(
         }
 
         Spacer(modifier = Modifier.height(30.dp))
+    }
+}
+
+@Composable
+fun FavoritesScreen(
+    favoriteSongs: Set<Int>,
+    onSongClick: (Int) -> Unit
+) {
+
+    val favoriteSongList = SongData.songs.filter {
+        favoriteSongs.contains(it.number)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(24.dp)
+    ) {
+
+        Text(
+            text = "❤️ FAVORITES",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        if (favoriteSongList.isEmpty()) {
+
+            Text(
+                text = "No favorite songs yet.",
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+        } else {
+
+            favoriteSongList.forEach { song ->
+
+                Button(
+                    onClick = {
+                        onSongClick(song.number)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp)
+                        .height(70.dp)
+                ) {
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text(
+                            text = "⭐ SONG ${song.number}",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = song.title,
+                            fontSize = 13.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AboutScreen() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Text(
+            text = "ABOUT",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = "LEMEKEZANI MULUNGU M'NYIMBO",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text(
+            text = "Nyimbo za Chikhristu",
+            fontSize = 17.sp,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(
+            text = "This app is a digital hymn book containing Christian songs for worship and personal devotion.",
+            fontSize = 17.sp,
+            lineHeight = 26.sp,
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(
+            text = "Version 1.0",
+            fontSize = 15.sp,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
