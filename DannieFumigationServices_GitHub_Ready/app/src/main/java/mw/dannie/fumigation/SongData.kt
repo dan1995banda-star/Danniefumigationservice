@@ -107,15 +107,3 @@ Pamodzi ndi Mfumuyo dzakhala kosatha.
         )
     )
 }
-
-The three songs and their English titles are taken from the uploaded hymn book.
-
-Do this now
-
-1. Create "SongData.kt"
-2. Paste the code exactly.
-3. Commit it.
-4. Wait for GitHub Actions.
-5. Tell me whether it says Success.
-
-After that, we'll connect "SongData.kt" to "MainActivity.kt" so tapping Song 1, Song 2, or Song 3 opens the correct individual page.
