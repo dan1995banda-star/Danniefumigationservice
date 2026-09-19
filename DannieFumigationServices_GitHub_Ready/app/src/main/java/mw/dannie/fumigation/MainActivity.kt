@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -86,6 +86,20 @@ fun HomeScreen(
     onSongClick: (Int) -> Unit
 ) {
 
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
+    val filteredSongs = SongData.songs.filter { song ->
+
+        val search = searchText.trim().lowercase()
+
+        search.isEmpty() ||
+                song.number.toString().contains(search) ||
+                song.title.lowercase().contains(search) ||
+                song.englishTitle.lowercase().contains(search)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,7 +108,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
         Text(
             text = "LEMEKEZANI\nMULUNGU M'NYIMBO",
@@ -103,7 +117,7 @@ fun HomeScreen(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
             text = "Nyimbo za Chikhristu",
@@ -111,35 +125,70 @@ fun HomeScreen(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(35.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
-        SongData.songs.forEach { song ->
+        OutlinedTextField(
+            value = searchText,
+            onValueChange = {
+                searchText = it
+            },
+            modifier = Modifier.fillMaxWidth(),
+            label = {
+                Text("Search songs")
+            },
+            placeholder = {
+                Text("Number or song title")
+            },
+            singleLine = true
+        )
 
-            Button(
-                onClick = {
-                    onSongClick(song.number)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 6.dp)
-                    .height(65.dp)
-            ) {
+        Spacer(modifier = Modifier.height(25.dp))
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+        if (filteredSongs.isEmpty()) {
+
+            Text(
+                text = "No songs found",
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+        } else {
+
+            filteredSongs.forEach { song ->
+
+                Button(
+                    onClick = {
+                        onSongClick(song.number)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp)
+                        .height(70.dp)
                 ) {
 
-                    Text(
-                        text = "SONG ${song.number}",
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                    Text(
-                        text = song.title,
-                        fontSize = 13.sp,
-                        textAlign = TextAlign.Center
-                    )
+                        Text(
+                            text = "SONG ${song.number}",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = song.title,
+                            fontSize = 13.sp,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = song.englishTitle,
+                            fontSize = 11.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         }
