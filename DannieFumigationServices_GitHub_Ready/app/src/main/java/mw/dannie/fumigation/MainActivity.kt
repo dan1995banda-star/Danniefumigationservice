@@ -82,7 +82,8 @@ fun HymnBookApp() {
                     NavigationBar {
 
                         NavigationBarItem(
-                            selected = navController.currentBackStackEntry?.destination?.route == "home",
+                            selected = navController.currentBackStackEntry
+                                ?.destination?.route == "home",
                             onClick = {
                                 navController.navigate("home") {
                                     popUpTo("home") {
@@ -103,7 +104,8 @@ fun HymnBookApp() {
                         )
 
                         NavigationBarItem(
-                            selected = navController.currentBackStackEntry?.destination?.route == "favorites",
+                            selected = navController.currentBackStackEntry
+                                ?.destination?.route == "favorites",
                             onClick = {
                                 navController.navigate("favorites") {
                                     launchSingleTop = true
@@ -121,7 +123,8 @@ fun HymnBookApp() {
                         )
 
                         NavigationBarItem(
-                            selected = navController.currentBackStackEntry?.destination?.route == "about",
+                            selected = navController.currentBackStackEntry
+                                ?.destination?.route == "about",
                             onClick = {
                                 navController.navigate("about") {
                                     launchSingleTop = true
@@ -188,6 +191,7 @@ fun HymnBookApp() {
                             SongScreen(
                                 song = song,
                                 isFavorite = favoriteSongs.contains(song.number),
+
                                 onFavoriteClick = {
 
                                     val newFavorites =
@@ -199,6 +203,62 @@ fun HymnBookApp() {
 
                                     saveFavorites(newFavorites)
                                 },
+
+                                onPreviousClick = {
+
+                                    val currentIndex =
+                                        SongData.songs.indexOfFirst {
+                                            it.number == song.number
+                                        }
+
+                                    if (currentIndex > 0) {
+
+                                        val previousSong =
+                                            SongData.songs[currentIndex - 1]
+
+                                        navController.navigate(
+                                            "song/${previousSong.number}"
+                                        ) {
+                                            popUpTo("song/${song.number}") {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                },
+
+                                onNextClick = {
+
+                                    val currentIndex =
+                                        SongData.songs.indexOfFirst {
+                                            it.number == song.number
+                                        }
+
+                                    if (
+                                        currentIndex >= 0 &&
+                                        currentIndex < SongData.songs.lastIndex
+                                    ) {
+
+                                        val nextSong =
+                                            SongData.songs[currentIndex + 1]
+
+                                        navController.navigate(
+                                            "song/${nextSong.number}"
+                                        ) {
+                                            popUpTo("song/${song.number}") {
+                                                inclusive = true
+                                            }
+                                        }
+                                    }
+                                },
+
+                                hasPrevious = SongData.songs.indexOfFirst {
+                                    it.number == song.number
+                                } > 0,
+
+                                hasNext = SongData.songs.indexOfFirst {
+                                    it.number == song.number
+                                } < SongData.songs.lastIndex,
+
                                 onBack = {
                                     navController.popBackStack()
                                 }
@@ -473,6 +533,10 @@ fun SongScreen(
     song: Song,
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    hasPrevious: Boolean,
+    hasNext: Boolean,
     onBack: () -> Unit
 ) {
 
@@ -533,6 +597,32 @@ fun SongScreen(
             )
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Button(
+                onClick = onPreviousClick,
+                enabled = hasPrevious,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("← Previous")
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Button(
+                onClick = onNextClick,
+                enabled = hasNext,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Next →")
+            }
+        }
+
         Spacer(modifier = Modifier.height(25.dp))
 
         song.verses.forEachIndexed { index, verse ->
@@ -544,6 +634,28 @@ fun SongScreen(
         }
 
         Spacer(modifier = Modifier.height(30.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Button(
+                onClick = onPreviousClick,
+                enabled = hasPrevious
+            ) {
+                Text("← Previous")
+            }
+
+            Button(
+                onClick = onNextClick,
+                enabled = hasNext
+            ) {
+                Text("Next →")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
