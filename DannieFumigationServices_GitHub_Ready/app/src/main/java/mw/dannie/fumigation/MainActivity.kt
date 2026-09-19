@@ -34,6 +34,10 @@ fun HymnBookApp() {
 
     val navController = rememberNavController()
 
+    var favoriteSongs by remember {
+        mutableStateOf(setOf<Int>())
+    }
+
     MaterialTheme {
 
         Surface(
@@ -49,6 +53,7 @@ fun HymnBookApp() {
                 composable("home") {
 
                     HomeScreen(
+                        favoriteSongs = favoriteSongs,
                         onSongClick = { songNumber ->
                             navController.navigate("song/$songNumber")
                         }
@@ -70,6 +75,16 @@ fun HymnBookApp() {
 
                         SongScreen(
                             song = song,
+                            isFavorite = favoriteSongs.contains(song.number),
+                            onFavoriteClick = {
+
+                                favoriteSongs =
+                                    if (favoriteSongs.contains(song.number)) {
+                                        favoriteSongs - song.number
+                                    } else {
+                                        favoriteSongs + song.number
+                                    }
+                            },
                             onBack = {
                                 navController.popBackStack()
                             }
@@ -83,6 +98,7 @@ fun HymnBookApp() {
 
 @Composable
 fun HomeScreen(
+    favoriteSongs: Set<Int>,
     onSongClick: (Int) -> Unit
 ) {
 
@@ -98,6 +114,10 @@ fun HomeScreen(
                 song.number.toString().contains(search) ||
                 song.title.lowercase().contains(search) ||
                 song.englishTitle.lowercase().contains(search)
+    }
+
+    val favoriteSongList = SongData.songs.filter {
+        favoriteSongs.contains(it.number)
     }
 
     Column(
@@ -144,6 +164,62 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(25.dp))
 
+        // Favorites section
+        if (favoriteSongList.isNotEmpty()) {
+
+            Text(
+                text = "⭐ FAVORITES",
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            favoriteSongList.forEach { song ->
+
+                Button(
+                    onClick = {
+                        onSongClick(song.number)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 5.dp)
+                        .height(65.dp)
+                ) {
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Text(
+                            text = "⭐ SONG ${song.number}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = song.title,
+                            fontSize = 13.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+        }
+
+        // All songs
+        Text(
+            text = "ALL SONGS",
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         if (filteredSongs.isEmpty()) {
 
             Text(
@@ -172,7 +248,11 @@ fun HomeScreen(
                     ) {
 
                         Text(
-                            text = "SONG ${song.number}",
+                            text = if (favoriteSongs.contains(song.number)) {
+                                "⭐ SONG ${song.number}"
+                            } else {
+                                "SONG ${song.number}"
+                            },
                             fontSize = 17.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -200,6 +280,8 @@ fun HomeScreen(
 @Composable
 fun SongScreen(
     song: Song,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit,
     onBack: () -> Unit
 ) {
 
@@ -242,6 +324,23 @@ fun SongScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(18.dp))
+
+        Button(
+            onClick = onFavoriteClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+            Text(
+                text = if (isFavorite) {
+                    "⭐ Remove from Favorites"
+                } else {
+                    "☆ Add to Favorites"
+                },
+                fontSize = 16.sp
+            )
+        }
 
         Spacer(modifier = Modifier.height(25.dp))
 
