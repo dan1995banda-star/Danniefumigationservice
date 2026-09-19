@@ -47,19 +47,34 @@ fun HymnBookApp() {
             ) {
 
                 composable("home") {
+
                     HomeScreen(
-                        onSong1 = {
-                            navController.navigate("song/1")
+                        onSongClick = { songNumber ->
+                            navController.navigate("song/$songNumber")
                         }
                     )
                 }
 
-                composable("song/1") {
-                    Song1Screen(
-                        onBack = {
-                            navController.popBackStack()
-                        }
-                    )
+                composable("song/{songNumber}") { backStackEntry ->
+
+                    val songNumber =
+                        backStackEntry.arguments
+                            ?.getString("songNumber")
+                            ?.toIntOrNull()
+
+                    val song = SongData.songs.find {
+                        it.number == songNumber
+                    }
+
+                    if (song != null) {
+
+                        SongScreen(
+                            song = song,
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -68,12 +83,13 @@ fun HymnBookApp() {
 
 @Composable
 fun HomeScreen(
-    onSong1: () -> Unit
+    onSongClick: (Int) -> Unit
 ) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -95,25 +111,46 @@ fun HomeScreen(
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(35.dp))
 
-        Button(
-            onClick = onSong1,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text(
-                text = "SONG 1",
-                fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
-            )
+        SongData.songs.forEach { song ->
+
+            Button(
+                onClick = {
+                    onSongClick(song.number)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 6.dp)
+                    .height(65.dp)
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        text = "SONG ${song.number}",
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Text(
+                        text = song.title,
+                        fontSize = 13.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(30.dp))
     }
 }
 
 @Composable
-fun Song1Screen(
+fun SongScreen(
+    song: Song,
     onBack: () -> Unit
 ) {
 
@@ -133,7 +170,7 @@ fun Song1Screen(
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            text = "1",
+            text = "${song.number}",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
@@ -141,7 +178,7 @@ fun Song1Screen(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "AITANA, AITANA DZIKO LONSE",
+            text = song.title,
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -151,67 +188,21 @@ fun Song1Screen(
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
-            text = "He Calls the Whole World",
+            text = song.englishTitle,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
-        HymnVerse(
-            number = 1,
-            text = """
-Aitana, aitana dziko lonse,
-Imvani, mukhaliranji chete? Aitana,
-Aitana, aitana dziko lonse.
-""".trimIndent()
-        )
+        song.verses.forEachIndexed { index, verse ->
 
-        HymnVerse(
-            number = 2,
-            text = """
-Mfumu iyi, Mfumu iyi yakumwamba,
-Ndi Yesu, ndi Mpulumutsiyo wa anthu onse,
-Anthu onse, anthu onse, tinke kwawo.
-""".trimIndent()
-        )
-
-        HymnVerse(
-            number = 3,
-            text = """
-Aitana, aitana inu mai,
-Ndi Yesu, amene anakhetsa mwazi wake;
-Mwazi wake unagwera inu mai.
-""".trimIndent()
-        )
-
-        HymnVerse(
-            number = 4,
-            text = """
-Aitana, aitana inu 'tate,
-Ndi Yesu amene anakhetsa mwazi wake:
-Mwazi wake unagwera inu 'tate.
-""".trimIndent()
-        )
-
-        HymnVerse(
-            number = 5,
-            text = """
-Yesu ati, Yesu ati: "Muzisiye
-Zoipa zimene muzichita, muzisiye,
-Muzisiye, muzisiye inu nonse."
-""".trimIndent()
-        )
-
-        HymnVerse(
-            number = 6,
-            text = """
-Titi bwanji? Titi bwanji ife anthu?
-Ndi Yesu anatifera ife akuchimwa;
-Akuchimwa, akuchimwa tinke kwawo.
-""".trimIndent()
-        )
+            HymnVerse(
+                number = index + 1,
+                text = verse
+            )
+        }
 
         Spacer(modifier = Modifier.height(30.dp))
     }
