@@ -24,7 +24,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,9 +45,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/* ================================================= */
+/* ------------------------------------------------ */
 /* COLORS */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 private val PrimaryBlue = Color(0xFF173F7A)
 private val Blue = Color(0xFF2457A6)
@@ -58,15 +57,20 @@ private val DarkText = Color(0xFF182230)
 private val GrayText = Color(0xFF697586)
 private val Gold = Color(0xFFFFB300)
 
-/* ================================================= */
+/* ------------------------------------------------ */
 /* MAIN APP */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 @Composable
 fun HymnBookApp() {
 
     val context = androidx.compose.ui.platform.LocalContext.current
+
     val navController = rememberNavController()
+
+    /*
+     * FAVORITES ARE SAVED LOCALLY ON THE PHONE
+     */
 
     val preferences = remember {
 
@@ -101,9 +105,11 @@ fun HymnBookApp() {
             .edit()
             .putStringSet(
                 "favorite_songs",
-                favorites.map {
-                    it.toString()
-                }.toSet()
+                favorites
+                    .map {
+                        it.toString()
+                    }
+                    .toSet()
             )
             .apply()
 
@@ -126,7 +132,8 @@ fun HymnBookApp() {
     ) {
 
         val currentBackStackEntry by
-        navController.currentBackStackEntryAsState()
+        navController
+            .currentBackStackEntryAsState()
 
         val currentRoute =
             currentBackStackEntry
@@ -158,6 +165,7 @@ fun HymnBookApp() {
                                 popUpTo(
                                     "home"
                                 ) {
+
                                     inclusive = false
                                 }
 
@@ -170,6 +178,7 @@ fun HymnBookApp() {
                             navController.navigate(
                                 "favorites"
                             ) {
+
                                 launchSingleTop = true
                             }
                         },
@@ -179,6 +188,7 @@ fun HymnBookApp() {
                             navController.navigate(
                                 "about"
                             ) {
+
                                 launchSingleTop = true
                             }
                         }
@@ -201,7 +211,9 @@ fun HymnBookApp() {
 
             ) {
 
-                /* ================= HOME ================= */
+                /* ------------------------------------------------ */
+                /* HOME */
+                /* ------------------------------------------------ */
 
                 composable("home") {
 
@@ -219,7 +231,9 @@ fun HymnBookApp() {
                     )
                 }
 
-                /* ============== FAVORITES ============== */
+                /* ------------------------------------------------ */
+                /* FAVORITES */
+                /* ------------------------------------------------ */
 
                 composable("favorites") {
 
@@ -237,14 +251,18 @@ fun HymnBookApp() {
                     )
                 }
 
-                /* ================= ABOUT ================= */
+                /* ------------------------------------------------ */
+                /* ABOUT */
+                /* ------------------------------------------------ */
 
                 composable("about") {
 
                     AboutScreen()
                 }
 
-                /* ================= SONG ================= */
+                /* ------------------------------------------------ */
+                /* SONG */
+                /* ------------------------------------------------ */
 
                 composable(
                     "song/{songNumber}"
@@ -323,6 +341,7 @@ fun HymnBookApp() {
                                         popUpTo(
                                             "song/${song.number}"
                                         ) {
+
                                             inclusive = true
                                         }
                                     }
@@ -349,6 +368,7 @@ fun HymnBookApp() {
                                         popUpTo(
                                             "song/${song.number}"
                                         ) {
+
                                             inclusive = true
                                         }
                                     }
@@ -359,8 +379,9 @@ fun HymnBookApp() {
                                 currentIndex > 0,
 
                             hasNext =
+                                currentIndex >= 0 &&
                                 currentIndex <
-                                    SongData.songs.lastIndex,
+                                SongData.songs.lastIndex,
 
                             onBack = {
 
@@ -374,9 +395,155 @@ fun HymnBookApp() {
     }
 }
 
-/* ================================================= */
+/* ------------------------------------------------ */
+/* HOME HEADER */
+/* ------------------------------------------------ */
+
+@Composable
+fun HomeImageHeader() {
+
+    Box(
+
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(230.dp)
+                .background(
+                    PrimaryBlue
+                )
+
+    ) {
+
+        Column(
+
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(
+                        horizontal = 22.dp,
+                        vertical = 22.dp
+                    ),
+
+            verticalArrangement =
+                Arrangement.Bottom
+        ) {
+
+            Text(
+
+                text =
+                    "SHILOH SDB CHURCH",
+
+                fontSize =
+                    15.sp,
+
+                fontWeight =
+                    FontWeight.Bold,
+
+                color =
+                    Color.White
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(5.dp)
+            )
+
+            Text(
+
+                text =
+                    "LEMEKEZANI MULUNGU",
+
+                fontSize =
+                    26.sp,
+
+                fontWeight =
+                    FontWeight.ExtraBold,
+
+                color =
+                    Color.White
+            )
+
+            Text(
+
+                text =
+                    "M'NYIMBO",
+
+                fontSize =
+                    31.sp,
+
+                fontWeight =
+                    FontWeight.ExtraBold,
+
+                color =
+                    Color.White
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(8.dp)
+            )
+
+            Text(
+
+                text =
+                    "Nyimbo za kupembedza ndi kutamanda Mulungu",
+
+                fontSize =
+                    13.sp,
+
+                color =
+                    Color.White.copy(
+                        alpha = 0.88f
+                    )
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(14.dp)
+            )
+
+            Surface(
+
+                shape =
+                    RoundedCornerShape(
+                        30.dp
+                    ),
+
+                color =
+                    Color.White.copy(
+                        alpha = 0.16f
+                    )
+
+            ) {
+
+                Text(
+
+                    text =
+                        "Chibvumbulutso 14:12",
+
+                    modifier =
+                        Modifier.padding(
+                            horizontal = 14.dp,
+                            vertical = 8.dp
+                        ),
+
+                    fontSize =
+                        12.sp,
+
+                    fontWeight =
+                        FontWeight.Bold,
+
+                    color =
+                        Color.White
+                )
+            }
+        }
+    }
+}
+
+/* ------------------------------------------------ */
 /* BOTTOM NAVIGATION */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 @Composable
 fun BottomNavigationBar(
@@ -393,9 +560,11 @@ fun BottomNavigationBar(
 
     NavigationBar(
 
-        containerColor = Color.White,
+        containerColor =
+            Color.White,
 
-        tonalElevation = 8.dp
+        tonalElevation =
+            8.dp
 
     ) {
 
@@ -410,6 +579,7 @@ fun BottomNavigationBar(
             icon = {
 
                 Icon(
+
                     imageVector =
                         Icons.Default.Home,
 
@@ -417,14 +587,19 @@ fun BottomNavigationBar(
                         "Home",
 
                     modifier =
-                        Modifier.size(27.dp)
+                        Modifier.size(
+                            27.dp
+                        )
                 )
             },
 
             label = {
 
                 Text(
-                    text = "Home",
+
+                    text =
+                        "Home",
+
                     fontWeight =
                         FontWeight.Bold
                 )
@@ -442,6 +617,7 @@ fun BottomNavigationBar(
             icon = {
 
                 Icon(
+
                     imageVector =
                         Icons.Default.Favorite,
 
@@ -449,14 +625,19 @@ fun BottomNavigationBar(
                         "Favorites",
 
                     modifier =
-                        Modifier.size(27.dp)
+                        Modifier.size(
+                            27.dp
+                        )
                 )
             },
 
             label = {
 
                 Text(
-                    text = "Favorites",
+
+                    text =
+                        "Favorites",
+
                     fontWeight =
                         FontWeight.Bold
                 )
@@ -474,6 +655,7 @@ fun BottomNavigationBar(
             icon = {
 
                 Icon(
+
                     imageVector =
                         Icons.Default.Info,
 
@@ -481,14 +663,19 @@ fun BottomNavigationBar(
                         "About",
 
                     modifier =
-                        Modifier.size(27.dp)
+                        Modifier.size(
+                            27.dp
+                        )
                 )
             },
 
             label = {
 
                 Text(
-                    text = "About",
+
+                    text =
+                        "About",
+
                     fontWeight =
                         FontWeight.Bold
                 )
@@ -497,9 +684,9 @@ fun BottomNavigationBar(
     }
 }
 
-/* ================================================= */
+/* ------------------------------------------------ */
 /* HOME SCREEN */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 @Composable
 fun HomeScreen(
@@ -511,6 +698,7 @@ fun HomeScreen(
 ) {
 
     var searchText by remember {
+
         mutableStateOf("")
     }
 
@@ -524,17 +712,17 @@ fun HomeScreen(
 
             search.isEmpty() ||
 
-                song.number
-                    .toString()
-                    .contains(search) ||
+            song.number
+                .toString()
+                .contains(search) ||
 
-                song.title
-                    .lowercase()
-                    .contains(search) ||
+            song.title
+                .lowercase()
+                .contains(search) ||
 
-                song.englishTitle
-                    .lowercase()
-                    .contains(search)
+            song.englishTitle
+                .lowercase()
+                .contains(search)
         }
 
     Column(
@@ -547,8 +735,6 @@ fun HomeScreen(
                 )
 
     ) {
-
-        /* ================= HEADER ================= */
 
         HomeImageHeader()
 
@@ -568,8 +754,6 @@ fun HomeScreen(
                     Modifier.height(15.dp)
             )
 
-            /* ================= SEARCH ================= */
-
             HomeSearchBox(
 
                 searchText =
@@ -582,10 +766,8 @@ fun HomeScreen(
 
             Spacer(
                 modifier =
-                    Modifier.height(18.dp)
+                    Modifier.height(16.dp)
             )
-
-            /* ================= TITLE ================= */
 
             Row(
 
@@ -608,30 +790,40 @@ fun HomeScreen(
                 ) {
 
                     Text(
-                        text = "♫",
-                        fontSize = 38.sp,
+
+                        text =
+                            "♫",
+
+                        fontSize =
+                            38.sp,
+
                         fontWeight =
                             FontWeight.Bold,
-                        color = Blue
+
+                        color =
+                            Blue
                     )
 
                     Spacer(
                         modifier =
-                            Modifier.width(7.dp)
+                            Modifier.width(8.dp)
                     )
 
                     Text(
-                        text = "NYIMBO ZONSE",
-                        fontSize = 24.sp,
+
+                        text =
+                            "NYIMBO ZONSE",
+
+                        fontSize =
+                            25.sp,
+
                         fontWeight =
                             FontWeight.ExtraBold,
-                        color = Blue
+
+                        color =
+                            Blue
                     )
                 }
-
-                /* ===================================== */
-                /* IMPORTANT: THIS REMAINS 413           */
-                /* ===================================== */
 
                 Surface(
 
@@ -647,7 +839,8 @@ fun HomeScreen(
 
                     Text(
 
-                        text = "413",
+                        text =
+                            "413",
 
                         modifier =
                             Modifier.padding(
@@ -655,7 +848,8 @@ fun HomeScreen(
                                 vertical = 9.dp
                             ),
 
-                        fontSize = 15.sp,
+                        fontSize =
+                            15.sp,
 
                         fontWeight =
                             FontWeight.Bold,
@@ -668,10 +862,8 @@ fun HomeScreen(
 
             Spacer(
                 modifier =
-                    Modifier.height(12.dp)
+                    Modifier.height(10.dp)
             )
-
-            /* ================= SONG LIST ================= */
 
             if (filteredSongs.isEmpty()) {
 
@@ -686,7 +878,8 @@ fun HomeScreen(
 
                     NewSongCard(
 
-                        song = song,
+                        song =
+                            song,
 
                         isFavorite =
                             favoriteSongs.contains(
@@ -719,267 +912,9 @@ fun HomeScreen(
     }
 }
 
-/* ================================================= */
-/* HOME HEADER */
-/* ================================================= */
-
-/*
- * IMPORTANT:
- * There is ONLY ONE HomeImageHeader now.
- *
- * We are deliberately NOT using:
- *
- * R.drawable.home_banner
- *
- * Therefore you do NOT need to create home_banner.png.
- */
-
-@Composable
-fun HomeImageHeader() {
-
-    Box(
-
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(230.dp)
-                .background(
-
-                    brush =
-                        Brush.verticalGradient(
-
-                            colors = listOf(
-
-                                Color(0xFF102F62),
-
-                                Color(0xFF2457A6),
-
-                                Color(0xFF5E8FC6)
-                            )
-                        )
-                )
-
-    ) {
-
-        /* Decorative circles */
-
-        Box(
-
-            modifier =
-                Modifier
-                    .size(170.dp)
-                    .offset(
-                        x = 245.dp,
-                        y = (-55).dp
-                    )
-                    .clip(
-                        CircleShape
-                    )
-                    .background(
-                        Color.White.copy(
-                            alpha = 0.08f
-                        )
-                    )
-        )
-
-        Box(
-
-            modifier =
-                Modifier
-                    .size(110.dp)
-                    .offset(
-                        x = (-35).dp,
-                        y = 145.dp
-                    )
-                    .clip(
-                        CircleShape
-                    )
-                    .background(
-                        Color.White.copy(
-                            alpha = 0.07f
-                        )
-                    )
-        )
-
-        Column(
-
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(
-                        horizontal = 22.dp,
-                        vertical = 20.dp
-                    ),
-
-            verticalArrangement =
-                Arrangement.Bottom
-
-        ) {
-
-            Row(
-
-                verticalAlignment =
-                    Alignment.CenterVertically
-
-            ) {
-
-                Box(
-
-                    modifier =
-                        Modifier
-                            .size(52.dp)
-                            .clip(
-                                CircleShape
-                            )
-                            .background(
-                                Color.White.copy(
-                                    alpha = 0.96f
-                                )
-                            ),
-
-                    contentAlignment =
-                        Alignment.Center
-
-                ) {
-
-                    Icon(
-
-                        imageVector =
-                            Icons.Default.Star,
-
-                        contentDescription =
-                            "SHILOH",
-
-                        tint =
-                            Gold,
-
-                        modifier =
-                            Modifier.size(
-                                31.dp
-                            )
-                    )
-                }
-
-                Spacer(
-                    modifier =
-                        Modifier.width(13.dp)
-                )
-
-                Column {
-
-                    Text(
-
-                        text =
-                            "SHILOH SDB CHURCH",
-
-                        fontSize =
-                            14.sp,
-
-                        fontWeight =
-                            FontWeight.Bold,
-
-                        color =
-                            Color.White
-                    )
-
-                    Text(
-
-                        text =
-                            "LEMEKEZANI MULUNGU",
-
-                        fontSize =
-                            19.sp,
-
-                        fontWeight =
-                            FontWeight.ExtraBold,
-
-                        color =
-                            Color.White
-                    )
-                }
-            }
-
-            Spacer(
-                modifier =
-                    Modifier.height(9.dp)
-            )
-
-            Text(
-
-                text =
-                    "M'NYIMBO",
-
-                fontSize =
-                    30.sp,
-
-                fontWeight =
-                    FontWeight.ExtraBold,
-
-                color =
-                    Color.White
-            )
-
-            Text(
-
-                text =
-                    "Nyimbo za kupembedza ndi kutamanda Mulungu",
-
-                fontSize =
-                    13.sp,
-
-                color =
-                    Color.White.copy(
-                        alpha = 0.88f
-                    )
-            )
-
-            Spacer(
-                modifier =
-                    Modifier.height(12.dp)
-            )
-
-            Surface(
-
-                shape =
-                    RoundedCornerShape(
-                        30.dp
-                    ),
-
-                color =
-                    Color.White.copy(
-                        alpha = 0.16f
-                    )
-
-            ) {
-
-                Text(
-
-                    text =
-                        "Chibvumbulutso 14:12",
-
-                    modifier =
-                        Modifier.padding(
-                            horizontal = 14.dp,
-                            vertical = 7.dp
-                        ),
-
-                    fontSize =
-                        12.sp,
-
-                    fontWeight =
-                        FontWeight.Bold,
-
-                    color =
-                        Color.White
-                )
-            }
-        }
-    }
-}
-
-/* ================================================= */
+/* ------------------------------------------------ */
 /* SEARCH */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 @Composable
 fun HomeSearchBox(
@@ -1015,7 +950,9 @@ fun HomeSearchBox(
                     Blue,
 
                 modifier =
-                    Modifier.size(28.dp)
+                    Modifier.size(
+                        30.dp
+                    )
             )
         },
 
@@ -1059,9 +996,9 @@ fun HomeSearchBox(
     )
 }
 
-/* ================================================= */
+/* ------------------------------------------------ */
 /* SONG CARD */
-/* ================================================= */
+/* ------------------------------------------------ */
 
 @Composable
 fun NewSongCard(
@@ -1141,8 +1078,6 @@ fun NewSongCard(
 
         ) {
 
-            /* COLOR STRIPE */
-
             Box(
 
                 modifier =
@@ -1158,8 +1093,6 @@ fun NewSongCard(
                 modifier =
                     Modifier.width(10.dp)
             )
-
-            /* NUMBER */
 
             Box(
 
@@ -1201,8 +1134,6 @@ fun NewSongCard(
                     Modifier.width(15.dp)
             )
 
-            /* SONG INFORMATION */
-
             Column(
 
                 modifier =
@@ -1224,7 +1155,8 @@ fun NewSongCard(
                     color =
                         PrimaryBlue,
 
-                    maxLines = 2
+                    maxLines =
+                        2
                 )
 
                 Spacer(
@@ -1246,11 +1178,10 @@ fun NewSongCard(
                     color =
                         Color(0xFF657795),
 
-                    maxLines = 1
+                    maxLines =
+                        1
                 )
             }
-
-            /* FAVORITE / ARROW */
 
             Icon(
 
@@ -1266,225 +1197,13 @@ fun NewSongCard(
 
                 contentDescription =
                     if (isFavorite) {
-
                         "Favorite"
-
                     } else {
-
                         "Open song"
                     },
 
                 tint =
                     if (isFavorite) {
-
                         Gold
-
                     } else {
-
-                        Color(0xFF526B93)
-                    },
-
-                modifier =
-                    Modifier
-                        .padding(
-                            end = 15.dp
-                        )
-                        .size(25.dp)
-            )
-        }
-    }
-}
-
-/* ================================================= */
-/* EMPTY SEARCH */
-/* ================================================= */
-
-@Composable
-fun EmptySearchState() {
-
-    Card(
-
-        modifier =
-            Modifier.fillMaxWidth(),
-
-        shape =
-            RoundedCornerShape(
-                20.dp
-            ),
-
-        colors =
-            CardDefaults.cardColors(
-                containerColor =
-                    Color.White
-            )
-    ) {
-
-        Column(
-
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(30.dp),
-
-            horizontalAlignment =
-                Alignment.CenterHorizontally
-
-        ) {
-
-            Icon(
-
-                imageVector =
-                    Icons.Default.Search,
-
-                contentDescription =
-                    "No results",
-
-                tint =
-                    Color(0xFF9AA4B2),
-
-                modifier =
-                    Modifier.size(45.dp)
-            )
-
-            Spacer(
-                modifier =
-                    Modifier.height(12.dp)
-            )
-
-            Text(
-
-                text =
-                    "Palibe nyimbo yopezeka.",
-
-                fontSize =
-                    16.sp,
-
-                fontWeight =
-                    FontWeight.Bold,
-
-                color =
-                    DarkText
-            )
-
-            Spacer(
-                modifier =
-                    Modifier.height(5.dp)
-            )
-
-            Text(
-
-                text =
-                    "Yesani nambala kapena dzina lina.",
-
-                fontSize =
-                    13.sp,
-
-                color =
-                    GrayText,
-
-                textAlign =
-                    TextAlign.Center
-            )
-        }
-    }
-}
-
-/* ================================================= */
-/* FAVORITES */
-/* ================================================= */
-
-@Composable
-fun FavoritesScreen(
-
-    favoriteSongs: Set<Int>,
-
-    onSongClick: (Int) -> Unit
-
-) {
-
-    val favoriteSongList =
-        SongData.songs.filter {
-
-            favoriteSongs.contains(
-                it.number
-            )
-        }
-
-    Column(
-
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(
-                    rememberScrollState()
-                )
-                .padding(18.dp)
-
-    ) {
-
-        Spacer(
-            modifier =
-                Modifier.height(8.dp)
-        )
-
-        Text(
-
-            text =
-                "ZOKONDA",
-
-            fontSize =
-                28.sp,
-
-            fontWeight =
-                FontWeight.ExtraBold,
-
-            color =
-                DarkText
-        )
-
-        Spacer(
-            modifier =
-                Modifier.height(5.dp)
-        )
-
-        Text(
-
-            text =
-                "Nyimbo zomwe mwasunga",
-
-            fontSize =
-                14.sp,
-
-            color =
-                GrayText
-        )
-
-        Spacer(
-            modifier =
-                Modifier.height(20.dp)
-        )
-
-        Surface(
-
-            modifier =
-                Modifier.fillMaxWidth(),
-
-            shape =
-                RoundedCornerShape(
-                    18.dp
-                ),
-
-            color =
-                LightBlue
-
-        ) {
-
-            Row(
-
-                modifier =
-                    Modifier.padding(
-                        18.dp
-                    ),
-
-                verticalAlignment =
-                    Alignment.CenterVertically
+                        Color(0
