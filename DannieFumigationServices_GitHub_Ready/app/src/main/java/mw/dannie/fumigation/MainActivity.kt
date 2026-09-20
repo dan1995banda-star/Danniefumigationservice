@@ -99,8 +99,10 @@ fun HymnBookApp() {
                 ) {
 
                     NavigationBarItem(
-                        selected = navController.currentBackStackEntry
-                            ?.destination?.route == "home",
+                        selected = navController
+                            .currentBackStackEntry
+                            ?.destination
+                            ?.route == "home",
 
                         onClick = {
                             navController.navigate("home") {
@@ -124,8 +126,10 @@ fun HymnBookApp() {
                     )
 
                     NavigationBarItem(
-                        selected = navController.currentBackStackEntry
-                            ?.destination?.route == "favorites",
+                        selected = navController
+                            .currentBackStackEntry
+                            ?.destination
+                            ?.route == "favorites",
 
                         onClick = {
                             navController.navigate("favorites") {
@@ -146,8 +150,10 @@ fun HymnBookApp() {
                     )
 
                     NavigationBarItem(
-                        selected = navController.currentBackStackEntry
-                            ?.destination?.route == "about",
+                        selected = navController
+                            .currentBackStackEntry
+                            ?.destination
+                            ?.route == "about",
 
                         onClick = {
                             navController.navigate("about") {
@@ -182,7 +188,9 @@ fun HymnBookApp() {
                     HomeScreen(
                         favoriteSongs = favoriteSongs,
                         onSongClick = { songNumber ->
-                            navController.navigate("song/$songNumber")
+                            navController.navigate(
+                                "song/$songNumber"
+                            )
                         }
                     )
                 }
@@ -192,7 +200,9 @@ fun HymnBookApp() {
                     FavoritesScreen(
                         favoriteSongs = favoriteSongs,
                         onSongClick = { songNumber ->
-                            navController.navigate("song/$songNumber")
+                            navController.navigate(
+                                "song/$songNumber"
+                            )
                         }
                     )
                 }
@@ -216,12 +226,18 @@ fun HymnBookApp() {
 
                         SongScreen(
                             song = song,
-                            isFavorite = favoriteSongs.contains(song.number),
+
+                            isFavorite =
+                                favoriteSongs.contains(song.number),
 
                             onFavoriteClick = {
 
                                 val newFavorites =
-                                    if (favoriteSongs.contains(song.number)) {
+                                    if (
+                                        favoriteSongs.contains(
+                                            song.number
+                                        )
+                                    ) {
                                         favoriteSongs - song.number
                                     } else {
                                         favoriteSongs + song.number
@@ -240,12 +256,16 @@ fun HymnBookApp() {
                                 if (currentIndex > 0) {
 
                                     val previousSong =
-                                        SongData.songs[currentIndex - 1]
+                                        SongData.songs[
+                                            currentIndex - 1
+                                        ]
 
                                     navController.navigate(
                                         "song/${previousSong.number}"
                                     ) {
-                                        popUpTo("song/${song.number}") {
+                                        popUpTo(
+                                            "song/${song.number}"
+                                        ) {
                                             inclusive = true
                                         }
                                     }
@@ -261,16 +281,21 @@ fun HymnBookApp() {
 
                                 if (
                                     currentIndex >= 0 &&
-                                    currentIndex < SongData.songs.lastIndex
+                                    currentIndex <
+                                    SongData.songs.lastIndex
                                 ) {
 
                                     val nextSong =
-                                        SongData.songs[currentIndex + 1]
+                                        SongData.songs[
+                                            currentIndex + 1
+                                        ]
 
                                     navController.navigate(
                                         "song/${nextSong.number}"
                                     ) {
-                                        popUpTo("song/${song.number}") {
+                                        popUpTo(
+                                            "song/${song.number}"
+                                        ) {
                                             inclusive = true
                                         }
                                     }
@@ -310,21 +335,29 @@ fun HomeScreen(
 
     val filteredSongs = SongData.songs.filter { song ->
 
-        val search = searchText.trim().lowercase()
+        val search = searchText
+            .trim()
+            .lowercase()
 
         search.isEmpty() ||
-                song.number.toString().contains(search) ||
-                song.title.lowercase().contains(search) ||
-                song.englishTitle.lowercase().contains(search)
+                song.number
+                    .toString()
+                    .contains(search) ||
+                song.title
+                    .lowercase()
+                    .contains(search) ||
+                song.englishTitle
+                    .lowercase()
+                    .contains(search)
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(
+                rememberScrollState()
+            )
     ) {
-
-        /* ---------------- HEADER ---------------- */
 
         Box(
             modifier = Modifier
@@ -353,7 +386,8 @@ fun HomeScreen(
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment =
+                        Alignment.CenterVertically
                 ) {
 
                     Column(
@@ -372,22 +406,32 @@ fun HomeScreen(
                         )
 
                         Row(
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment =
+                                Alignment.CenterVertically
                         ) {
 
                             Box(
                                 modifier = Modifier
                                     .size(48.dp)
                                     .clip(CircleShape)
-                                    .background(Color.White.copy(alpha = 0.95f)),
-                                contentAlignment = Alignment.Center
+                                    .background(
+                                        Color.White.copy(
+                                            alpha = 0.95f
+                                        )
+                                    ),
+                                contentAlignment =
+                                    Alignment.Center
                             ) {
 
                                 Icon(
-                                    imageVector = Icons.Default.Info,
-                                    contentDescription = "Open Bible",
-                                    tint = Color(0xFF2457A6),
-                                    modifier = Modifier.size(30.dp)
+                                    imageVector =
+                                        Icons.Default.Info,
+                                    contentDescription =
+                                        "Open Bible",
+                                    tint =
+                                        Color(0xFF2457A6),
+                                    modifier =
+                                        Modifier.size(30.dp)
                                 )
                             }
 
@@ -406,7 +450,8 @@ fun HomeScreen(
 
                     Column(
                         modifier = Modifier.width(170.dp),
-                        horizontalAlignment = Alignment.End
+                        horizontalAlignment =
+                            Alignment.End
                     ) {
 
                         Text(
@@ -422,9 +467,10 @@ fun HomeScreen(
                         )
 
                         Text(
-                            text = "Pano pali cipiriro ca oyera mtima,\n" +
-                                    "ca iwo akusunga malamulo a Mulungu,\n" +
-                                    "ndi cikhulupiriro ca Yesu.",
+                            text =
+                                "Pano pali cipiriro ca oyera mtima,\n" +
+                                "ca iwo akusunga malamulo a Mulungu,\n" +
+                                "ndi cikhulupiriro ca Yesu.",
                             color = Color.White,
                             fontSize = 11.sp,
                             lineHeight = 15.sp,
@@ -438,7 +484,8 @@ fun HomeScreen(
                 )
 
                 Text(
-                    text = "LEMEKEZANI\nMULUNGU M'NYIMBO",
+                    text =
+                        "LEMEKEZANI\nMULUNGU M'NYIMBO",
                     color = Color.White,
                     fontSize = 27.sp,
                     fontWeight = FontWeight.Bold,
@@ -446,8 +493,6 @@ fun HomeScreen(
                 )
             }
         }
-
-        /* ---------------- SEARCH ---------------- */
 
         Column(
             modifier = Modifier
@@ -469,8 +514,7 @@ fun HomeScreen(
                     searchText = it
                 },
 
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
 
                 leadingIcon = {
                     Icon(
@@ -487,23 +531,27 @@ fun HomeScreen(
 
                 shape = RoundedCornerShape(18.dp),
 
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    focusedBorderColor = Color(0xFF2457A6),
-                    unfocusedBorderColor = Color(0xFFD7DCE5)
-                )
+                colors =
+                    OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor =
+                            Color.White,
+                        unfocusedContainerColor =
+                            Color.White,
+                        focusedBorderColor =
+                            Color(0xFF2457A6),
+                        unfocusedBorderColor =
+                            Color(0xFFD7DCE5)
+                    )
             )
 
             Spacer(
                 modifier = Modifier.height(25.dp)
             )
 
-            /* ---------------- SECTION TITLE ---------------- */
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment =
+                    Alignment.CenterVertically
             ) {
 
                 Text(
@@ -536,8 +584,6 @@ fun HomeScreen(
                 modifier = Modifier.height(12.dp)
             )
 
-            /* ---------------- SONG LIST ---------------- */
-
             if (filteredSongs.isEmpty()) {
 
                 Spacer(
@@ -553,11 +599,16 @@ fun HomeScreen(
 
             } else {
 
-                filteredSongs.forEachIndexed { index, song ->
+                filteredSongs.forEachIndexed {
+                        index,
+                        song ->
 
                     SongCard(
                         song = song,
-                        isFavorite = favoriteSongs.contains(song.number),
+                        isFavorite =
+                            favoriteSongs.contains(
+                                song.number
+                            ),
                         index = index,
                         onClick = {
                             onSongClick(song.number)
@@ -580,4 +631,565 @@ fun HomeScreen(
 @Composable
 fun SongCard(
     song: Song,
-    isFavorite:
+    isFavorite: Boolean,
+    index: Int,
+    onClick: () -> Unit
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        )
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 15.dp
+                ),
+            verticalAlignment =
+                Alignment.CenterVertically
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(
+                        Color(0xFFE8EFFB)
+                    ),
+                contentAlignment =
+                    Alignment.Center
+            ) {
+
+                Text(
+                    text = song.number.toString(),
+                    color = Color(0xFF2457A6),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.width(14.dp)
+            )
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+
+                Text(
+                    text = song.title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF202A38),
+                    maxLines = 2
+                )
+
+                Spacer(
+                    modifier = Modifier.height(4.dp)
+                )
+
+                Text(
+                    text = song.englishTitle,
+                    fontSize = 13.sp,
+                    color = Color(0xFF6B7280),
+                    maxLines = 1
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.width(8.dp)
+            )
+
+            if (isFavorite) {
+
+                Icon(
+                    imageVector = Icons.Default.Star,
+                    contentDescription = "Favorite",
+                    tint = Color(0xFFFFB300),
+                    modifier = Modifier.size(22.dp)
+                )
+
+            } else {
+
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Open song",
+                    tint = Color(0xFF2457A6),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun FavoritesScreen(
+    favoriteSongs: Set<Int>,
+    onSongClick: (Int) -> Unit
+) {
+
+    val favoriteSongList =
+        SongData.songs.filter {
+            favoriteSongs.contains(it.number)
+        }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(
+                rememberScrollState()
+            )
+            .padding(18.dp)
+    ) {
+
+        Text(
+            text = "ZOKONDA",
+            fontSize = 27.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF202A38)
+        )
+
+        Spacer(
+            modifier = Modifier.height(6.dp)
+        )
+
+        Text(
+            text = "Nyimbo zomwe mwasunga",
+            fontSize = 14.sp,
+            color = Color(0xFF6B7280)
+        )
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        if (favoriteSongList.isEmpty()) {
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            ) {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(30.dp),
+                    horizontalAlignment =
+                        Alignment.CenterHorizontally
+                ) {
+
+                    Icon(
+                        imageVector =
+                            Icons.Default.Favorite,
+                        contentDescription =
+                            "No favorites",
+                        tint =
+                            Color(0xFFB0B7C3),
+                        modifier =
+                            Modifier.size(48.dp)
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
+                    )
+
+                    Text(
+                        text =
+                            "Palibe nyimbo zomwe mwasunga.",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center,
+                        color = Color(0xFF555D6B)
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(6.dp)
+                    )
+
+                    Text(
+                        text =
+                            "Dinani nyenyezi pa nyimbo kuti muiike pano.",
+                        fontSize = 13.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color(0xFF7A828F)
+                    )
+                }
+            }
+
+        } else {
+
+            favoriteSongList.forEachIndexed {
+                    index,
+                    song ->
+
+                SongCard(
+                    song = song,
+                    isFavorite = true,
+                    index = index,
+                    onClick = {
+                        onSongClick(song.number)
+                    }
+                )
+
+                Spacer(
+                    modifier = Modifier.height(10.dp)
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(25.dp)
+        )
+    }
+}
+
+@Composable
+fun AboutScreen() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(
+                rememberScrollState()
+            )
+            .padding(20.dp)
+    ) {
+
+        Text(
+            text = "ZA APP",
+            fontSize = 27.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF202A38)
+        )
+
+        Spacer(
+            modifier = Modifier.height(18.dp)
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+
+            Column(
+                modifier = Modifier.padding(22.dp)
+            ) {
+
+                Text(
+                    text =
+                        "LEMEKEZANI MULUNGU M'NYIMBO",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2457A6)
+                )
+
+                Spacer(
+                    modifier = Modifier.height(14.dp)
+                )
+
+                Text(
+                    text = "SHILOH SDB CHURCH",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+
+                Text(
+                    text =
+                        "Buku la nyimbo la Chichewa lokonzedwa " +
+                        "kuti likhale losavuta kuwerenga ndi " +
+                        "kusaka nyimbo.",
+                    fontSize = 15.sp,
+                    lineHeight = 23.sp,
+                    color = Color(0xFF555D6B)
+                )
+
+                Spacer(
+                    modifier = Modifier.height(18.dp)
+                )
+
+                Text(
+                    text =
+                        "Mavesi a m'Baibulo ndi nyimbo zili " +
+                        "mwa dongosolo la buku la nyimbo.",
+                    fontSize = 14.sp,
+                    lineHeight = 22.sp,
+                    color = Color(0xFF6B7280)
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(20.dp)
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+
+            Column(
+                modifier = Modifier.padding(22.dp)
+            ) {
+
+                Text(
+                    text = "ZOKONDA",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2457A6)
+                )
+
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+
+                Text(
+                    text =
+                        "Nyimbo zomwe mwasankha kukhala zokonda " +
+                        "zimasungidwa pa foni yanu ndipo zimapitiriza " +
+                        "kupezeka mukatsegulanso app.",
+                    fontSize = 14.sp,
+                    lineHeight = 22.sp,
+                    color = Color(0xFF6B7280)
+                )
+            }
+        }
+
+        Spacer(
+            modifier = Modifier.height(25.dp)
+        )
+    }
+}
+
+@Composable
+fun SongScreen(
+    song: Song,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit,
+    onPreviousClick: () -> Unit,
+    onNextClick: () -> Unit,
+    hasPrevious: Boolean,
+    hasNext: Boolean,
+    onBack: () -> Unit
+) {
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Color(0xFF2457A6)
+                )
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 14.dp
+                ),
+            verticalAlignment =
+                Alignment.CenterVertically
+        ) {
+
+            Text(
+                text = "‹",
+                color = Color.White,
+                fontSize = 34.sp,
+                modifier = Modifier
+                    .clickable {
+                        onBack()
+                    }
+                    .padding(
+                        horizontal = 8.dp
+                    )
+            )
+
+            Spacer(
+                modifier = Modifier.width(8.dp)
+            )
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+
+                Text(
+                    text = "NYIMBO ${song.number}",
+                    color = Color.White,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(
+                    modifier = Modifier.height(2.dp)
+                )
+
+                Text(
+                    text = song.title,
+                    color = Color.White,
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2
+                )
+            }
+
+            IconButton(
+                onClick = {
+                    onFavoriteClick()
+                }
+            ) {
+
+                Icon(
+                    imageVector =
+                        if (isFavorite) {
+                            Icons.Default.Star
+                        } else {
+                            Icons.Default.Favorite
+                        },
+                    contentDescription = "Favorite",
+                    tint =
+                        if (isFavorite) {
+                            Color(0xFFFFD54F)
+                        } else {
+                            Color.White
+                        }
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(
+                    rememberScrollState()
+                )
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 22.dp,
+                    bottom = 25.dp
+                )
+        ) {
+
+            Text(
+                text = song.title,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF202A38),
+                lineHeight = 32.sp
+            )
+
+            Spacer(
+                modifier = Modifier.height(7.dp)
+            )
+
+            Text(
+                text = song.englishTitle,
+                fontSize = 15.sp,
+                color = Color(0xFF6B7280)
+            )
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            HorizontalDivider()
+
+            Spacer(
+                modifier = Modifier.height(20.dp)
+            )
+
+            Text(
+                text = song.verses.joinToString(
+                    separator = "\n\n"
+                ),
+                fontSize = 18.sp,
+                lineHeight = 29.sp,
+                color = Color(0xFF202A38)
+            )
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Color.White
+                )
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 12.dp
+                ),
+            horizontalArrangement =
+                Arrangement.SpaceBetween,
+            verticalAlignment =
+                Alignment.CenterVertically
+        ) {
+
+            Button(
+                onClick = {
+                    onPreviousClick()
+                },
+                enabled = hasPrevious,
+                shape = RoundedCornerShape(14.dp)
+            ) {
+
+                Text(
+                    text = "‹  YAM'MBUYOMO"
+                )
+            }
+
+            Surface(
+                shape = RoundedCornerShape(50.dp),
+                color = Color(0xFFE8EFFB)
+            ) {
+
+                Text(
+                    text = "${song.number}",
+                    modifier = Modifier.padding(
+                        horizontal = 15.dp,
+                        vertical = 8.dp
+                    ),
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2457A6)
+                )
+            }
+
+            Button(
+                onClick = {
+                    onNextClick()
+                },
+                enabled = hasNext,
+                shape = RoundedCornerShape(14.dp)
+            ) {
+
+                Text(
+                    text = "YOTSATIRA  ›"
+                )
+            }
+        }
+    }
+}
