@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:theme="@style/Theme.Dannie.Starting"
-        android:icon="@drawable/dannie_logo"
-        android:roundIcon="@drawable/dannie_logo"
-        android:label="Dannie Fumigation Services"
         android:allowBackup="true"
-        android:supportsRtl="true">
+        android:icon="@mipmap/ic_launcher"
+        android:label="Lemekezani Mulungu M'nyimbo"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DannieFumigation">
 
         <activity
             android:name=".MainActivity"
             android:exported="true">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
 
         </activity>
