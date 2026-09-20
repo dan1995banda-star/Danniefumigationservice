@@ -2037,8 +2037,11 @@ fun SongScreen(
 
                     imageVector =
                         if (isFavorite) {
+
                             Icons.Default.Star
+
                         } else {
+
                             Icons.Default.Favorite
                         },
 
@@ -2047,8 +2050,11 @@ fun SongScreen(
 
                     tint =
                         if (isFavorite) {
+
                             Gold
+
                         } else {
+
                             Color.White
                         }
                 )
@@ -2132,86 +2138,228 @@ fun SongScreen(
             )
 
             Spacer(
+                modifier =
+                    Modifier.height(7.dp)
+            )
+
+            Text(
+
+                text =
+                    song.englishTitle,
+
+                fontSize =
+                    14.sp,
+
+                color =
+                    GrayText
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(20.dp)
+            )
+
+            HorizontalDivider(
+
+                color =
+                    Color(0xFFE1E5EB)
+            )
+
+            Spacer(
+                modifier =
+                    Modifier.height(22.dp)
+            )
+
+            Surface(
+
+                modifier =
+                    Modifier.fillMaxWidth(),
+
+                shape =
+                    RoundedCornerShape(
+                        18.dp
+                    ),
+
+                color =
+                    Color.White,
+
+                tonalElevation =
+                    1.dp
+
+            ) {
+
                 Text(
-    text =
-        song.title,
 
-    fontSize =
-        27.sp,
+                    text =
+                        song.verses.joinToString(
+                            separator =
+                                "\n\n"
+                        ),
 
-    lineHeight =
-        34.sp,
+                    modifier =
+                        Modifier.padding(
+                            20.dp
+                        ),
 
-    fontWeight =
-        FontWeight.ExtraBold,
+                    fontSize =
+                        18.sp,
 
-    color =
-        DarkText
-)
+                    lineHeight =
+                        30.sp,
 
-Spacer(
-    modifier =
-        Modifier.height(7.dp)
-)
+                    color =
+                        DarkText
+                )
+            }
 
-Text(
-    text =
-        song.englishTitle,
+            Spacer(
+                modifier =
+                    Modifier.height(25.dp)
+            )
+        }
 
-    fontSize =
-        14.sp,
+        /* --------------------------------------------- */
+        /* PREVIOUS / NEXT NAVIGATION */
+        /* --------------------------------------------- */
 
-    color =
-        GrayText
-)
+        Surface(
 
-Spacer(
-    modifier =
-        Modifier.height(20.dp)
-)
+            modifier =
+                Modifier.fillMaxWidth(),
 
-HorizontalDivider(
-    color =
-        Color(0xFFE1E5EB)
-)
+            color =
+                Color.White,
 
-Spacer(
-    modifier =
-        Modifier.height(22.dp)
-)
+            shadowElevation =
+                8.dp
 
-Surface(
-    modifier =
-        Modifier.fillMaxWidth(),
+        ) {
 
-    shape =
-        RoundedCornerShape(
-            18.dp
-        ),
+            Row(
 
-    color =
-        Color.White
-) {
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = 12.dp,
+                            vertical = 10.dp
+                        ),
 
-    Text(
-        text =
-            song.verses.joinToString(
-                separator =
-                    "\n\n"
-            ),
+                verticalAlignment =
+                    Alignment.CenterVertically,
 
-        modifier =
-            Modifier.padding(
-                20.dp
-            ),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
 
-        fontSize =
-            18.sp,
+            ) {
 
-        lineHeight =
-            30.sp,
+                OutlinedButton(
 
-        color =
-            DarkText
-    )
+                    onClick =
+                        onPreviousClick,
+
+                    enabled =
+                        hasPrevious,
+
+                    shape =
+                        RoundedCornerShape(
+                            13.dp
+                        )
+
+                ) {
+
+                    Text(
+
+                        text =
+                            "‹",
+
+                        fontSize =
+                            20.sp
+                    )
+
+                    Spacer(
+                        modifier =
+                            Modifier.width(3.dp)
+                    )
+
+                    Text(
+
+                        text =
+                            "YAM'MBUYOMO",
+
+                        fontSize =
+                            11.sp
+                    )
+                }
+
+                Surface(
+
+                    shape =
+                        CircleShape,
+
+                    color =
+                        LightBlue
+
+                ) {
+
+                    Text(
+
+                        text =
+                            song.number.toString(),
+
+                        modifier =
+                            Modifier.padding(
+                                horizontal = 13.dp,
+                                vertical = 9.dp
+                            ),
+
+                        fontWeight =
+                            FontWeight.Bold,
+
+                        color =
+                            Blue
+                    )
+                }
+
+                OutlinedButton(
+
+                    onClick =
+                        onNextClick,
+
+                    enabled =
+                        hasNext,
+
+                    shape =
+                        RoundedCornerShape(
+                            13.dp
+                        )
+
+                ) {
+
+                    Text(
+
+                        text =
+                            "YOTSATIRA",
+
+                        fontSize =
+                            11.sp
+                    )
+
+                    Spacer(
+                        modifier =
+                            Modifier.width(3.dp)
+                    )
+
+                    Text(
+
+                        text =
+                            "›",
+
+                        fontSize =
+                            20.sp
+                    )
+                }
+            }
+        }
+    }
 }
