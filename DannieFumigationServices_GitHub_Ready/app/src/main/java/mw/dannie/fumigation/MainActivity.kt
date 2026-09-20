@@ -64,7 +64,91 @@ private val Gold = Color(0xFFFFB300)
 /* ------------------------------------------------ */
 
 @Composable
-fun HymnBookApp() {
+fun HomeImageHeader() {
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(230.dp)
+            .background(
+                color = PrimaryBlue
+            )
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    horizontal = 22.dp,
+                    vertical = 22.dp
+                ),
+            verticalArrangement =
+                Arrangement.Bottom
+        ) {
+
+            Text(
+                text = "SHILOH SDB CHURCH",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+
+            Spacer(
+                modifier = Modifier.height(5.dp)
+            )
+
+            Text(
+                text = "LEMEKEZANI MULUNGU",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White
+            )
+
+            Text(
+                text = "M'NYIMBO",
+                fontSize = 31.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White
+            )
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
+
+            Text(
+                text =
+                    "Nyimbo za kupembedza ndi kutamanda Mulungu",
+                fontSize = 13.sp,
+                color = Color.White.copy(
+                    alpha = 0.88f
+                )
+            )
+
+            Spacer(
+                modifier = Modifier.height(14.dp)
+            )
+
+            Surface(
+                shape = RoundedCornerShape(30.dp),
+                color = Color.White.copy(
+                    alpha = 0.16f
+                )
+            ) {
+
+                Text(
+                    text = "Chibvumbulutso 14:12",
+                    modifier = Modifier.padding(
+                        horizontal = 14.dp,
+                        vertical = 8.dp
+                    ),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+        }
+    }
+}
 
     val context = androidx.compose.ui.platform.LocalContext.current
     val navController = rememberNavController()
