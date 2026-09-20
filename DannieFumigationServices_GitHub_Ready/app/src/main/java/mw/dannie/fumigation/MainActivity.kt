@@ -2132,22 +2132,86 @@ fun SongScreen(
             )
 
             Spacer(
-                modifier =
-                    Modifier.height(7.dp)
-            )
+                Text(
+    text =
+        song.title,
 
-            Text(
+    fontSize =
+        27.sp,
 
-                text =
-                    song.englishTitle,
+    lineHeight =
+        34.sp,
 
-                fontSize =
-                    14.sp,
+    fontWeight =
+        FontWeight.ExtraBold,
 
-                color =
-                    GrayText
-            )
+    color =
+        DarkText
+)
 
-            Spacer(
-                modifier =
-                   
+Spacer(
+    modifier =
+        Modifier.height(7.dp)
+)
+
+Text(
+    text =
+        song.englishTitle,
+
+    fontSize =
+        14.sp,
+
+    color =
+        GrayText
+)
+
+Spacer(
+    modifier =
+        Modifier.height(20.dp)
+)
+
+HorizontalDivider(
+    color =
+        Color(0xFFE1E5EB)
+)
+
+Spacer(
+    modifier =
+        Modifier.height(22.dp)
+)
+
+Surface(
+    modifier =
+        Modifier.fillMaxWidth(),
+
+    shape =
+        RoundedCornerShape(
+            18.dp
+        ),
+
+    color =
+        Color.White
+) {
+
+    Text(
+        text =
+            song.verses.joinToString(
+                separator =
+                    "\n\n"
+            ),
+
+        modifier =
+            Modifier.padding(
+                20.dp
+            ),
+
+        fontSize =
+            18.sp,
+
+        lineHeight =
+            30.sp,
+
+        color =
+            DarkText
+    )
+}
