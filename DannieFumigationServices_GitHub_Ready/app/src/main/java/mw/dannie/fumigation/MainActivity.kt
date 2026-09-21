@@ -376,21 +376,101 @@ fun HymnBookApp() {
 // ============================================================
 
 @Composable
+@Composable
 fun HomeImageHeader() {
-
-    Image(
-        painter = painterResource(
-            id = R.drawable.shiloh_home_banner
-        ),
-
-        contentDescription = "SHILOH SDB CHURCH",
-
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(3.72f),
+            .height(158.dp)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        Color(0xFF0288D1),
+                        Color(0xFF1565C0),
+                        Color(0xFF0D47A1)
+                    )
+                )
+            )
+    ) {
 
-        contentScale = ContentScale.FillWidth
-    )
+        // SHILOH CHURCH LOGO
+        Image(
+            painter = painterResource(id = R.drawable.shiloh_logo),
+            contentDescription = "SHILOH SDB CHURCH Logo",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(start = 14.dp, top = 14.dp)
+                .size(58.dp)
+                .clip(CircleShape)
+        )
+
+        // Vertical divider
+        Box(
+            modifier = Modifier
+                .padding(start = 84.dp, top = 18.dp)
+                .width(2.dp)
+                .height(40.dp)
+                .background(Color.White.copy(alpha = 0.8f))
+        )
+
+        // CHURCH NAME
+        Text(
+            text = "SHILOH SDB CHURCH",
+            color = Color.White,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(start = 98.dp, top = 18.dp)
+        )
+
+        // MAIN TITLE
+        Text(
+            text = "LEMEKEZANI\nMULUNGU M’NYIMBO",
+            color = Color(0xFF082D69),
+            fontSize = 27.sp,
+            fontWeight = FontWeight.ExtraBold,
+            lineHeight = 29.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 125.dp,
+                    end = 105.dp,
+                    top = 48.dp
+                )
+        )
+
+        // BIBLE VERSE
+        Text(
+            text = "“Pano pali cipiriro ca\noyera mtima, ca iwo\nakusunga malamulo a\nMulungu, ndi cikhulupiriro\nca Yesu.”",
+            color = Color(0xFF082D69),
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            lineHeight = 13.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(
+                    end = 8.dp,
+                    top = 49.dp
+                )
+                .width(115.dp)
+        )
+
+        // VERSE REFERENCE
+        Text(
+            text = "Chibvumbulutso 14:12",
+            color = Color(0xFF082D69),
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(
+                    end = 9.dp,
+                    bottom = 4.dp
+                )
+        )
+    }
 }
 
 // ============================================================
