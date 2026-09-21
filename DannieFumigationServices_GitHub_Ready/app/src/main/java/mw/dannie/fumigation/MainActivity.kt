@@ -379,27 +379,16 @@ fun HymnBookApp() {
 fun HomeImageHeader() {
 
     Image(
-
         painter = painterResource(
             id = R.drawable.shiloh_home_banner
         ),
 
-        contentDescription =
-            "SHILOH SDB CHURCH",
+        contentDescription = "SHILOH SDB CHURCH",
 
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .aspectRatio(3.72f),
 
-        /*
-         * IMPORTANT:
-         *
-         * We do NOT use ContentScale.Crop here.
-         *
-         * Crop was causing the banner to zoom in and cut off:
-         * SHILOH SDB CHURCH
-         * and
-         * LEMEKEZANI MULUNGU M'NYIMBO
-         */
         contentScale = ContentScale.FillWidth
     )
 }
