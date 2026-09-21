@@ -362,13 +362,13 @@ fun HomeImageHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(230.dp)
+            .height(205.dp)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF102F5C),
-                        Color(0xFF2457A6),
-                        Color(0xFF4C78B8)
+                        Color(0xFF123D78),
+                        Color(0xFF245FA8),
+                        Color(0xFF4C7DBD)
                     )
                 )
             ),
@@ -376,52 +376,53 @@ fun HomeImageHeader() {
     ) {
 
         Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // ------------------------------------------------
+            // -------------------------------------------------
             // SHILOH LOGO
-            // ------------------------------------------------
+            // -------------------------------------------------
 
-            Image(
-                painter = painterResource(
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(
                     id = R.drawable.shiloh_launcher
                 ),
-                contentDescription = "Shiloh Mission Logo",
+                contentDescription = "Shiloh Mission",
                 modifier = Modifier
                     .size(92.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
+                    .clip(CircleShape)
             )
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(10.dp)
             )
 
-            // ------------------------------------------------
+            // -------------------------------------------------
             // CHURCH NAME
-            // ------------------------------------------------
+            // -------------------------------------------------
 
             Text(
                 text = "SHILOH SDB CHURCH",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
 
             Spacer(
-                modifier = Modifier.height(5.dp)
+                modifier = Modifier.height(4.dp)
             )
 
-            // ------------------------------------------------
-            // APP TITLE
-            // ------------------------------------------------
+            // -------------------------------------------------
+            // HYMNS TITLE
+            // -------------------------------------------------
 
             Text(
                 text = "LEMEKEZANI MULUNGU M'NYIMBO",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White.copy(alpha = 0.9f),
+                color = Color.White.copy(alpha = 0.95f),
                 textAlign = TextAlign.Center
             )
         }
