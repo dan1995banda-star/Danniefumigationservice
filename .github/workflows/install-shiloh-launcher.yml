@@ -1,0 +1,382 @@
+name: Install Shiloh Launcher and Build APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      launcher_url:
+        description: "Optional public URL of the SHILOH launcher PNG"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  launcher-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---------------------------------------------------------
+      # 1. Checkout repository
+      # ---------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ---------------------------------------------------------
+      # 2. Find Android/Gradle project
+      # ---------------------------------------------------------
+      - name: Find Android project
+        id: find-project
+        shell: bash
+        run: |
+          set -e
+
+          echo "Searching for Gradle project..."
+
+          if [ -f "settings.gradle" ] || [ -f "settings.gradle.kts" ]; then
+            PROJECT_DIR="."
+          else
+            PROJECT_DIR=$(find . \
+              -type f \
+              \( -name "settings.gradle" -o -name "settings.gradle.kts" \) \
+              -not -path "./.git/*" \
+              -print -quit)
+
+            if [ -z "$PROJECT_DIR" ]; then
+              echo "ERROR: Could not find settings.gradle or settings.gradle.kts"
+              exit 1
+            fi
+
+            PROJECT_DIR=$(dirname "$PROJECT_DIR")
+          fi
+
+          echo "Android project directory: $PROJECT_DIR"
+          echo "project_dir=$PROJECT_DIR" >> "$GITHUB_OUTPUT"
+
+      # ---------------------------------------------------------
+      # 3. Setup Java 17
+      # ---------------------------------------------------------
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # ---------------------------------------------------------
+      # 4. Setup Gradle
+      # ---------------------------------------------------------
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+
+      # ---------------------------------------------------------
+      # 5. Prepare Android resource folders
+      # ---------------------------------------------------------
+      - name: Prepare launcher resource folders
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p app/src/main/res/drawable
+          mkdir -p app/src/main/res/mipmap-anydpi-v26
+          mkdir -p app/src/main/res/values
+
+          echo "Launcher resource folders ready."
+
+      # ---------------------------------------------------------
+      # 6. Install launcher image
+      # ---------------------------------------------------------
+      - name: Install SHILOH launcher image
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        env:
+          LAUNCHER_URL: ${{ inputs.launcher_url }}
+        shell: bash
+        run: |
+          set -e
+
+          TARGET="app/src/main/res/drawable/ic_launcher_foreground.png"
+
+          # If a URL was supplied, download it.
+          if [ -n "$LAUNCHER_URL" ]; then
+
+            echo "Downloading launcher image..."
+
+            curl \
+              --fail \
+              --location \
+              --retry 3 \
+              --connect-timeout 20 \
+              --max-time 120 \
+              "$LAUNCHER_URL" \
+              -o "$TARGET"
+
+          # Otherwise use an image already committed to the repository.
+          elif [ -f "launcher-source/shiloh_launcher.png" ]; then
+
+            echo "Using launcher-source/shiloh_launcher.png"
+
+            cp \
+              "launcher-source/shiloh_launcher.png" \
+              "$TARGET"
+
+          else
+
+            echo "ERROR: No launcher image was supplied."
+            echo
+            echo "Either:"
+            echo "1. Run this workflow with a public launcher_url, or"
+            echo "2. Add launcher-source/shiloh_launcher.png to the repository."
+            echo
+            exit 1
+
+          fi
+
+          # Verify that the downloaded/copied file is actually an image.
+          if [ ! -s "$TARGET" ]; then
+            echo "ERROR: Launcher image is empty."
+            exit 1
+          fi
+
+          file "$TARGET"
+
+          echo "Launcher installed:"
+          ls -lh "$TARGET"
+
+      # ---------------------------------------------------------
+      # 7. Create launcher background color
+      # ---------------------------------------------------------
+      - name: Create launcher background color
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          COLORS="app/src/main/res/values/colors.xml"
+
+          # Create colors.xml if it doesn't exist.
+          if [ ! -f "$COLORS" ]; then
+            cat > "$COLORS" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <color name="ic_launcher_background">#06245C</color>
+          </resources>
+          EOF
+          else
+
+            # Add launcher color only if it does not already exist.
+            if ! grep -q 'name="ic_launcher_background"' "$COLORS"; then
+
+              sed -i \
+                '/<\/resources>/i\
+              <color name="ic_launcher_background">#06245C</color>' \
+                "$COLORS"
+
+            fi
+          fi
+
+          echo "Launcher background color:"
+          grep "ic_launcher_background" "$COLORS" || true
+
+      # ---------------------------------------------------------
+      # 8. Create adaptive launcher icon
+      # ---------------------------------------------------------
+      - name: Update launcher XML
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          LAUNCHER_DIR="app/src/main/res/mipmap-anydpi-v26"
+
+          mkdir -p "$LAUNCHER_DIR"
+
+          cat > "$LAUNCHER_DIR/ic_launcher.xml" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/ic_launcher_background" />
+              <foreground android:drawable="@drawable/ic_launcher_foreground" />
+          </adaptive-icon>
+          EOF
+
+          cat > "$LAUNCHER_DIR/ic_launcher_round.xml" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/ic_launcher_background" />
+              <foreground android:drawable="@drawable/ic_launcher_foreground" />
+          </adaptive-icon>
+          EOF
+
+          echo "=== ic_launcher.xml ==="
+          cat "$LAUNCHER_DIR/ic_launcher.xml"
+
+          echo
+          echo "=== ic_launcher_round.xml ==="
+          cat "$LAUNCHER_DIR/ic_launcher_round.xml"
+
+      # ---------------------------------------------------------
+      # 9. Make sure manifest uses our launcher
+      # ---------------------------------------------------------
+      - name: Update Android manifest launcher
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          MANIFEST="app/src/main/AndroidManifest.xml"
+
+          if [ ! -f "$MANIFEST" ]; then
+            echo "ERROR: AndroidManifest.xml not found."
+            exit 1
+          fi
+
+          # Replace an existing android:icon value.
+          sed -i \
+            's/android:icon="@[^"]*"/android:icon="@mipmap\/ic_launcher"/g' \
+            "$MANIFEST"
+
+          # Replace an existing round icon.
+          sed -i \
+            's/android:roundIcon="@[^"]*"/android:roundIcon="@mipmap\/ic_launcher_round"/g' \
+            "$MANIFEST"
+
+          echo "=== Launcher references in manifest ==="
+          grep -nE 'android:(icon|roundIcon)' "$MANIFEST" || true
+
+      # ---------------------------------------------------------
+      # 10. Check for broken launcher foreground references
+      # ---------------------------------------------------------
+      - name: Verify launcher resources
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          TARGET="app/src/main/res/drawable/ic_launcher_foreground.png"
+
+          echo "Checking launcher foreground..."
+
+          if [ ! -f "$TARGET" ]; then
+            echo "ERROR: $TARGET does not exist."
+            exit 1
+          fi
+
+          if [ ! -s "$TARGET" ]; then
+            echo "ERROR: $TARGET is empty."
+            exit 1
+          fi
+
+          echo "Launcher foreground exists:"
+          ls -lh "$TARGET"
+
+          echo
+          echo "=== Resource tree ==="
+          find app/src/main/res \
+            -maxdepth 3 \
+            -type f \
+            | sort
+
+      # ---------------------------------------------------------
+      # 11. Create Gradle Wrapper if missing
+      # ---------------------------------------------------------
+      - name: Create Gradle Wrapper if needed
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          if [ ! -f "gradlew" ]; then
+            echo "gradlew not found."
+            echo "Creating Gradle Wrapper..."
+
+            gradle wrapper --gradle-version 8.11.1
+
+            chmod +x gradlew
+          else
+            echo "Gradle Wrapper already exists."
+            chmod +x gradlew
+          fi
+
+      # ---------------------------------------------------------
+      # 12. Clean project
+      # ---------------------------------------------------------
+      - name: Clean project
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          ./gradlew clean
+
+      # ---------------------------------------------------------
+      # 13. Build APK
+      # ---------------------------------------------------------
+      - name: Build Debug APK
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          echo "Building debug APK..."
+
+          ./gradlew assembleDebug --stacktrace
+
+      # ---------------------------------------------------------
+      # 14. Find APK
+      # ---------------------------------------------------------
+      - name: Find generated APK
+        id: find-apk
+        working-directory: ${{ steps.find-project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          APK=$(find app/build/outputs/apk \
+            -type f \
+            -name "*.apk" \
+            | head -1)
+
+          if [ -z "$APK" ]; then
+            echo "ERROR: APK was not generated."
+            exit 1
+          fi
+
+          echo "APK generated:"
+          ls -lh "$APK"
+
+          echo "apk_path=$APK" >> "$GITHUB_OUTPUT"
+
+      # ---------------------------------------------------------
+      # 15. Commit launcher changes
+      # ---------------------------------------------------------
+      - name: Commit launcher changes
+        shell: bash
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No launcher changes to commit."
+          else
+            git commit -m "Install Shiloh Mission launcher icon"
+            git push
+          fi
+
+      # ---------------------------------------------------------
+      # 16. Upload APK
+      # ---------------------------------------------------------
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shiloh-SDB-Church-Debug-APK
+          path: ${{ steps.find-project.outputs.project_dir }}/${{ steps.find-apk.outputs.apk_path }}
+          if-no-files-found: error
+          retention-days: 14
