@@ -1,4 +1,4 @@
-name: Install Shiloh Launcher and Build APK
+name: Fix Shiloh Launcher and Build APK
 
 on:
   workflow_dispatch:
@@ -44,35 +44,91 @@ jobs:
               | head -1)
 
             if [ -z "$SETTINGS" ]; then
-              echo "Android project not found."
+              echo "ERROR: Android project not found."
               exit 1
             fi
 
             PROJECT=$(dirname "$SETTINGS")
           fi
 
-          echo "Project: $PROJECT"
+          echo "PROJECT=$PROJECT"
           echo "project_dir=$PROJECT" >> "$GITHUB_OUTPUT"
 
-      # --------------------------------------------------
-      # INSTALL THE SHILOH LAUNCHER IMAGE
-      # --------------------------------------------------
+      # =========================================================
+      # FORCE REMOVE THE OLD BROKEN ADAPTIVE ICON
+      # =========================================================
 
-      - name: Install launcher image
+      - name: Remove old broken launcher resources
+        working-directory: ${{ steps.project.outputs.project_dir }}
+        shell: bash
+        run: |
+          set -e
+
+          echo "Searching for old launcher files..."
+
+          find app/src/main/res \
+            -type f \
+            \( \
+              -name "ic_launcher.xml" \
+              -o -name "ic_launcher_round.xml" \
+              -o -name "ic_launcher_foreground.xml" \
+              -o -name "ic_launcher_foreground.png" \
+            \) \
+            -print || true
+
+          echo
+          echo "Removing old adaptive launcher directory..."
+
+          rm -rf app/src/main/res/mipmap-anydpi-v26
+
+          echo "Removing any old foreground resources..."
+
+          find app/src/main/res \
+            -type f \
+            \( \
+              -name "ic_launcher_foreground.xml" \
+              -o -name "ic_launcher_foreground.png" \
+            \) \
+            -delete || true
+
+          echo
+          echo "Searching for ic_launcher_foreground references..."
+
+          if grep -R \
+            "ic_launcher_foreground" \
+            app/src/main/res \
+            --include="*.xml" \
+            --include="*.kt" \
+            --include="*.java"; then
+
+            echo
+            echo "ERROR: Old ic_launcher_foreground reference still exists."
+            exit 1
+          fi
+
+          echo
+          echo "Old launcher references successfully removed."
+
+      # =========================================================
+      # INSTALL SHILOH IMAGE
+      # =========================================================
+
+      - name: Install Shiloh launcher image
         working-directory: ${{ steps.project.outputs.project_dir }}
         shell: bash
         run: |
           set -e
 
           mkdir -p app/src/main/res/drawable
+          mkdir -p app/src/main/res/mipmap
 
           if [ ! -f "launcher-source/shiloh_launcher.png" ]; then
-            echo "ERROR:"
-            echo "launcher-source/shiloh_launcher.png was not found."
+            echo "ERROR: Launcher image not found."
             echo
-            echo "Please add your launcher image here:"
-            echo
+            echo "Expected:"
             echo "launcher-source/shiloh_launcher.png"
+            echo
+            echo "Please upload the Shiloh launcher image to that location."
             exit 1
           fi
 
@@ -80,48 +136,23 @@ jobs:
             launcher-source/shiloh_launcher.png \
             app/src/main/res/drawable/shiloh_launcher.png
 
-          echo "Launcher installed:"
-          ls -lh app/src/main/res/drawable/shiloh_launcher.png
-
-      # --------------------------------------------------
-      # CREATE SIMPLE LAUNCHER XML
-      # --------------------------------------------------
-
-      - name: Create launcher resources
-        working-directory: ${{ steps.project.outputs.project_dir }}
-        shell: bash
-        run: |
-          set -e
-
-          mkdir -p app/src/main/res/mipmap
-
           cp \
-            app/src/main/res/drawable/shiloh_launcher.png \
+            launcher-source/shiloh_launcher.png \
             app/src/main/res/mipmap/ic_launcher.png
 
           cp \
-            app/src/main/res/drawable/shiloh_launcher.png \
+            launcher-source/shiloh_launcher.png \
             app/src/main/res/mipmap/ic_launcher_round.png
 
-          echo "Launcher files:"
-          ls -lh app/src/main/res/mipmap/
+          echo
+          echo "Launcher files installed:"
+          ls -lh app/src/main/res/drawable/shiloh_launcher.png
+          ls -lh app/src/main/res/mipmap/ic_launcher.png
+          ls -lh app/src/main/res/mipmap/ic_launcher_round.png
 
-      # --------------------------------------------------
-      # REMOVE OLD BROKEN ADAPTIVE ICON
-      # --------------------------------------------------
-
-      - name: Remove broken adaptive launcher
-        working-directory: ${{ steps.project.outputs.project_dir }}
-        shell: bash
-        run: |
-          rm -f app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          rm -f app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
-
-          echo "Old adaptive launcher XML removed."
-
-      # --------------------------------------------------
+      # =========================================================
       # UPDATE MANIFEST
-      # --------------------------------------------------
+      # =========================================================
 
       - name: Update AndroidManifest.xml
         working-directory: ${{ steps.project.outputs.project_dir }}
@@ -132,9 +163,12 @@ jobs:
           MANIFEST="app/src/main/AndroidManifest.xml"
 
           if [ ! -f "$MANIFEST" ]; then
-            echo "AndroidManifest.xml not found."
+            echo "ERROR: AndroidManifest.xml not found."
             exit 1
           fi
+
+          echo "Before:"
+          grep -nE 'android:(icon|roundIcon)' "$MANIFEST" || true
 
           sed -i \
             's/android:icon="@[^"]*"/android:icon="@mipmap\/ic_launcher"/g' \
@@ -144,12 +178,13 @@ jobs:
             's/android:roundIcon="@[^"]*"/android:roundIcon="@mipmap\/ic_launcher_round"/g' \
             "$MANIFEST"
 
-          echo "Launcher configuration:"
+          echo
+          echo "After:"
           grep -nE 'android:(icon|roundIcon)' "$MANIFEST" || true
 
-      # --------------------------------------------------
-      # CHECK NO OLD BROKEN REFERENCE EXISTS
-      # --------------------------------------------------
+      # =========================================================
+      # VERIFY THERE IS NO OLD ADAPTIVE ICON
+      # =========================================================
 
       - name: Verify launcher configuration
         working-directory: ${{ steps.project.outputs.project_dir }}
@@ -157,7 +192,18 @@ jobs:
         run: |
           set -e
 
-          echo "Searching for old ic_launcher_foreground references..."
+          echo "Checking for old mipmap-anydpi-v26..."
+
+          if [ -d "app/src/main/res/mipmap-anydpi-v26" ]; then
+            echo "ERROR: mipmap-anydpi-v26 still exists."
+            find app/src/main/res/mipmap-anydpi-v26 -type f -print
+            exit 1
+          fi
+
+          echo "Good: old adaptive launcher directory does not exist."
+
+          echo
+          echo "Checking for old foreground references..."
 
           if grep -R \
             "ic_launcher_foreground" \
@@ -166,26 +212,28 @@ jobs:
             --include="*.kt" \
             --include="*.java"; then
 
-            echo
-            echo "ERROR: Old launcher reference still exists."
+            echo "ERROR: Old launcher reference found."
             exit 1
-
           fi
 
-          echo "No broken foreground reference found."
+          echo "Good: no ic_launcher_foreground references."
 
           echo
-          echo "Launcher files:"
+          echo "Final launcher resources:"
+
           find app/src/main/res \
-            \( -name "*launcher*" -o -name "shiloh_launcher.png" \) \
             -type f \
+            \( \
+              -name "*launcher*" \
+              -o -name "shiloh_launcher.png" \
+            \) \
             -print
 
-      # --------------------------------------------------
-      # CREATE GRADLE WRAPPER IF NECESSARY
-      # --------------------------------------------------
+      # =========================================================
+      # CREATE GRADLE WRAPPER IF NEEDED
+      # =========================================================
 
-      - name: Create Gradle Wrapper
+      - name: Create Gradle Wrapper if needed
         working-directory: ${{ steps.project.outputs.project_dir }}
         shell: bash
         run: |
@@ -197,27 +245,29 @@ jobs:
 
           chmod +x gradlew
 
-      # --------------------------------------------------
+      # =========================================================
       # CLEAN
-      # --------------------------------------------------
+      # =========================================================
 
-      - name: Clean project
+      - name: Clean
         working-directory: ${{ steps.project.outputs.project_dir }}
+        shell: bash
         run: |
           ./gradlew clean
 
-      # --------------------------------------------------
+      # =========================================================
       # BUILD
-      # --------------------------------------------------
+      # =========================================================
 
       - name: Build Debug APK
         working-directory: ${{ steps.project.outputs.project_dir }}
+        shell: bash
         run: |
           ./gradlew assembleDebug --stacktrace
 
-      # --------------------------------------------------
-      # COMMIT LAUNCHER CHANGES
-      # --------------------------------------------------
+      # =========================================================
+      # COMMIT EVERYTHING
+      # =========================================================
 
       - name: Commit launcher changes
         shell: bash
@@ -232,18 +282,18 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Replace app launcher with Shiloh Mission icon"
+            git commit -m "Fix Shiloh Mission app launcher"
             git push
           fi
 
-      # --------------------------------------------------
+      # =========================================================
       # UPLOAD APK
-      # --------------------------------------------------
+      # =========================================================
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Shiloh-SDB-Church-APK
+          name: Shiloh-SDB-Church-Debug-APK
           path: ${{ steps.project.outputs.project_dir }}/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
