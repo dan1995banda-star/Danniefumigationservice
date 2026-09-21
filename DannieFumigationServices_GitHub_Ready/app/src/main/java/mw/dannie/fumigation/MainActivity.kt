@@ -68,7 +68,12 @@ private val Gold = Color(0xFFFFB300)
 // ============================================================
 // MAIN APP
 // ============================================================
-
+data class Song(
+    val number: Int,
+    val title: String,
+    val englishTitle: String,
+    val verses: List<String>
+)
 @Composable
 fun HymnBookApp() {
 
