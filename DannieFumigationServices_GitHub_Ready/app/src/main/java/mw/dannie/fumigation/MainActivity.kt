@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -373,31 +376,31 @@ fun HomeImageHeader() {
     ) {
 
         Column(
-            horizontalAlignment =
-                Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Box(
-                modifier = Modifier
-                    .size(82.dp)
-                    .clip(CircleShape)
-                    .background(
-                        Color.White.copy(alpha = 0.95f)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
+            // ------------------------------------------------
+            // SHILOH LOGO
+            // ------------------------------------------------
 
-                Text(
-                    text = "♫",
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = PrimaryBlue
-                )
-            }
+            Image(
+                painter = painterResource(
+                    id = R.drawable.shiloh_launcher
+                ),
+                contentDescription = "Shiloh Mission Logo",
+                modifier = Modifier
+                    .size(92.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
 
             Spacer(
                 modifier = Modifier.height(12.dp)
             )
+
+            // ------------------------------------------------
+            // CHURCH NAME
+            // ------------------------------------------------
 
             Text(
                 text = "SHILOH SDB CHURCH",
@@ -410,23 +413,16 @@ fun HomeImageHeader() {
                 modifier = Modifier.height(5.dp)
             )
 
+            // ------------------------------------------------
+            // APP TITLE
+            // ------------------------------------------------
+
             Text(
                 text = "LEMEKEZANI MULUNGU M'NYIMBO",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White.copy(alpha = 0.9f),
                 textAlign = TextAlign.Center
-            )
-
-            Spacer(
-                modifier = Modifier.height(9.dp)
-            )
-
-            Text(
-                text = "NYIMBO ZONSE",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White.copy(alpha = 0.8f)
             )
         }
     }
@@ -1217,30 +1213,16 @@ fun AboutScreen() {
                     Alignment.CenterHorizontally
             ) {
 
-                Box(
+                Image(
+                    painter = painterResource(
+                        id = R.drawable.shiloh_launcher
+                    ),
+                    contentDescription = "Shiloh Mission Logo",
                     modifier = Modifier
                         .size(130.dp)
-                        .clip(CircleShape)
-                        .background(
-                            brush = Brush.linearGradient(
-                                colors = listOf(
-                                    PrimaryBlue,
-                                    Blue
-                                )
-                            )
-                        ),
-
-                    contentAlignment =
-                        Alignment.Center
-                ) {
-
-                    Text(
-                        text = "♫",
-                        fontSize = 70.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
-                }
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
 
                 Spacer(
                     modifier = Modifier.height(14.dp)
@@ -1671,4 +1653,4 @@ fun SongScreen(
             }
         }
     }
-}
+}a
