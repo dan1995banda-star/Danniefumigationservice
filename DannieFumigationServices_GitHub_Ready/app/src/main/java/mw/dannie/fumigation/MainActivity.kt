@@ -362,21 +362,25 @@ fun HomeImageHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(205.dp)
+            .height(270.dp)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFF123D78),
-                        Color(0xFF245FA8),
-                        Color(0xFF4C7DBD)
+                        Color(0xFF0D3B78),
+                        Color(0xFF2D68AE),
+                        Color(0xFF5A8BC5)
                     )
                 )
-            ),
-        contentAlignment = Alignment.Center
+            )
     ) {
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 22.dp,
+                    bottom = 18.dp
+                ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -384,18 +388,19 @@ fun HomeImageHeader() {
             // SHILOH LOGO
             // -------------------------------------------------
 
-            androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(
+            Image(
+                painter = painterResource(
                     id = R.drawable.shiloh_launcher
                 ),
-                contentDescription = "Shiloh Mission",
+                contentDescription = "Shiloh SDB Church",
                 modifier = Modifier
-                    .size(92.dp)
-                    .clip(CircleShape)
+                    .size(115.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
             )
 
             Spacer(
-                modifier = Modifier.height(10.dp)
+                modifier = Modifier.height(12.dp)
             )
 
             // -------------------------------------------------
@@ -404,24 +409,61 @@ fun HomeImageHeader() {
 
             Text(
                 text = "SHILOH SDB CHURCH",
-                fontSize = 22.sp,
+                fontSize = 25.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color.White,
                 textAlign = TextAlign.Center
             )
 
             Spacer(
-                modifier = Modifier.height(4.dp)
+                modifier = Modifier.height(6.dp)
             )
 
             // -------------------------------------------------
-            // HYMNS TITLE
+            // APP TITLE
             // -------------------------------------------------
 
             Text(
                 text = "LEMEKEZANI MULUNGU M'NYIMBO",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+
+            // -------------------------------------------------
+            // BIBLE VERSE REFERENCE
+            // -------------------------------------------------
+
+            Text(
+                text = "Chibvumbulutso 14:12",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
+                color = Color(0xFFFFD54F),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(
+                modifier = Modifier.height(3.dp)
+            )
+
+            // -------------------------------------------------
+            // BIBLE VERSE
+            // -------------------------------------------------
+
+            Text(
+                text = "Pano pali cipiriro ca oyera mtima, ca iwo " +
+                        "akusunga malamulo a Mulungu, ndi cikhulupiriro ca Yesu.",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp),
+                fontSize = 11.sp,
+                lineHeight = 15.sp,
+                fontWeight = FontWeight.Medium,
                 color = Color.White.copy(alpha = 0.95f),
                 textAlign = TextAlign.Center
             )
@@ -601,34 +643,16 @@ fun HomeScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment =
-                    Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Row(
-                    modifier = Modifier.weight(1f),
-                    verticalAlignment =
-                        Alignment.CenterVertically
-                ) {
-
-                    Text(
-                        text = "♫",
-                        fontSize = 38.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Blue
-                    )
-
-                    Spacer(
-                        modifier = Modifier.width(8.dp)
-                    )
-
-                    Text(
-                        text = "NYIMBO ZONSE",
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Blue
-                    )
-                }
+                Text(
+                    text = "NYIMBO",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Blue,
+                    modifier = Modifier.weight(1f)
+                )
 
                 Surface(
                     shape = RoundedCornerShape(30.dp),
@@ -636,7 +660,7 @@ fun HomeScreen(
                 ) {
 
                     Text(
-                        text = SongData.songs.size.toString(),
+                        text = "ZONSE ${SongData.songs.size}",
 
                         modifier = Modifier.padding(
                             horizontal = 18.dp,
@@ -1000,15 +1024,12 @@ fun FavoritesScreen(
 
         Surface(
             modifier = Modifier.fillMaxWidth(),
-
             shape = RoundedCornerShape(18.dp),
-
             color = LightBlue
         ) {
 
             Row(
                 modifier = Modifier.padding(18.dp),
-
                 verticalAlignment =
                     Alignment.CenterVertically
             ) {
@@ -1254,10 +1275,6 @@ fun AboutScreen() {
             modifier = Modifier.height(18.dp)
         )
 
-        // -----------------------------------------------------
-        // ABOUT CARDS
-        // -----------------------------------------------------
-
         AboutCard(
             title = "ZA BUKU",
 
@@ -1358,19 +1375,12 @@ fun AboutCard(
 @Composable
 fun SongScreen(
     song: Song,
-
     isFavorite: Boolean,
-
     onFavoriteClick: () -> Unit,
-
     onPreviousClick: () -> Unit,
-
     onNextClick: () -> Unit,
-
     hasPrevious: Boolean,
-
     hasNext: Boolean,
-
     onBack: () -> Unit
 ) {
 
@@ -1491,13 +1501,9 @@ fun SongScreen(
 
             Text(
                 text = song.title,
-
                 fontSize = 27.sp,
-
                 lineHeight = 34.sp,
-
                 fontWeight = FontWeight.ExtraBold,
-
                 color = DarkText
             )
 
@@ -1583,9 +1589,7 @@ fun SongScreen(
                 OutlinedButton(
                     onClick = onPreviousClick,
                     enabled = hasPrevious,
-
-                    shape =
-                        RoundedCornerShape(13.dp)
+                    shape = RoundedCornerShape(13.dp)
                 ) {
 
                     Icon(
@@ -1626,9 +1630,7 @@ fun SongScreen(
                 OutlinedButton(
                     onClick = onNextClick,
                     enabled = hasNext,
-
-                    shape =
-                        RoundedCornerShape(13.dp)
+                    shape = RoundedCornerShape(13.dp)
                 ) {
 
                     Text(
@@ -1641,14 +1643,9 @@ fun SongScreen(
                     )
 
                     Icon(
-                        imageVector =
-                            Icons.Default.ArrowForward,
-
-                        contentDescription =
-                            "Next",
-
-                        modifier =
-                            Modifier.size(18.dp)
+                        imageVector = Icons.Default.ArrowForward,
+                        contentDescription = "Next",
+                        modifier = Modifier.size(18.dp)
                     )
                 }
             }
