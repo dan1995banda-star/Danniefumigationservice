@@ -1,3 +1,4 @@
+import androidx.compose.ui.graphics.Brush
 package mw.dannie.fumigation
 
 import android.content.Context
@@ -375,7 +376,7 @@ fun HymnBookApp() {
 // SHILOH HOME BANNER
 // ============================================================
 
-@Composable
+
 @Composable
 fun HomeImageHeader() {
     Box(
