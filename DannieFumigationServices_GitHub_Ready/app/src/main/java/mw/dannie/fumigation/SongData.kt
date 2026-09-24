@@ -1826,6 +1826,8 @@ Ndi kuyera kwanuko kudze m'mtima mwangamu.
 VERSE 1
 Iripo nyimbo ndikonda kuyimba ineyo,
 Ya Yesu Mbuye wangayo, ch’omboledwere ‘ne.
+
+CHORUS
 Ntaomboledwa ‘ne, ndidzalemekezatu dzina la Ambuyeyo;
 Ntaomboledwa ‘ne, ndidzalemekeza dzinalo.
                 """.trimIndent(),
@@ -1858,6 +1860,8 @@ Kuli anthu obvutika, popita masikuwa;
 Kuli anthu akutopa, popita masikuwa;
 Ngati tiwakondwetsa, poyenda ulendowu
 Zabwino tichitetu, popita masikuwa.
+
+CHORUS
 Masiku apita, masiku apita,
 Zabwino tichitetu! Popita masikuwa.
                 """.trimIndent(),
@@ -1887,6 +1891,8 @@ Tidzakhala okondwa, popita masikuwa.
 VERSE 1
 Kwathu kosasinthikako, ndi masautso kulibe;
 Inde kwathu kowalako, kodi sudzapumulako?
+
+CHORUS
 Linda, usadandauletu, linda usadandauletu;
 Linda, Linda! Usadandauletu.
                 """.trimIndent(),
@@ -1919,6 +1925,8 @@ Kodi ungakhale moyo wonga wakewo?
 Kumayenda naye m’njira monsemo?
 Ungamlole lye kunyamula nkhawazo?
 Mlole atsogole ‘Ye.
+
+CHORUS
 Mwa mphamvu yake udzakhalatu,
 Wakumasuka, inde, m’mwazi ‘ke,
 Chikondi ‘ke chidzadze mtimako,
@@ -1987,6 +1995,8 @@ VERSE 1
 Kodi walemedwa m’mtima mwako?
 Nena kwa Yesu, nena kwa Yesu.
 Kodi uli kumva za chisoni?
+
+CHORUS
 Nena kwa Yesu yekha.
 Nena kwa Yesu, nena kwa Yesu
 Ndi bwenzi labwinotu,
@@ -2143,6 +2153,8 @@ Kuli dziko labwino m’mwamba
 Lakuwala koposa dzuwa,
 Ndi Atate akonza malo,
 Pokhalira ife komweko.
+
+CHORUS
 Bwinoli tipita,
 Tikomana ku dziko lija (lijalo).
                 """.trimIndent(),
@@ -2174,6 +2186,8 @@ Kapenatu si ku phiriko, kapena ku nyanjako,
 Kapena ku nkhondo komwetu, mufuna ndipite’ne;
 Komatu akandituma ‘ne ku dziko la ‘lendowo,
 Ndilola mwa mphamvu ya Mbuyeyo, ndzapita mufunako.
+
+CHORUS
 Ndzapita kumene mufunako, m’phiri, m’dambo, ndi
 m’nyanjamo;
 Ndzanena zimene mufunazo, ndzatsata Mpulumutsiyo.
@@ -2205,6 +2219,8 @@ VERSE 1
 Kulira sikanthu – Ngakhale nkhope igwe,
 Singaletse matsoka, singatsuke machimo
 Kulira sikanthu.
+
+CHORUS
 Yesu nafa pa mtanda, Yesu nandiferatu,
 Yesu andilindira kundipulumutsa.
                 """.trimIndent(),
@@ -2240,6 +2256,8 @@ Kwathu sipadziko, ndingopitirira,
 Ndadzikundikira chuma Kumwambako;
 Mngelo akodola pakhomo la m’Mwamba,
 Ndipo dziko lapansi sindiyesa kwathu.
+
+CHORUS
 Mbuye ndinu bwenzi langa ndithu,
 Ndichitenji ngati Kumwamba sikwathu?
 M’ngelo akodola pakhomo la m'Mwamba
@@ -2273,6 +2291,8 @@ Limbikani mwa Mulungu wanuyo,
 Nkana m’dziko muli mabvutowo;
 Khristu ndiye thanthwe lolimbalo,
 Ndi la mphamvu zonsezo.
+
+CHORUS
 Tilimbike kuima pa thanthwe lija
 Thanthwe ndilo Khristuyo;
 Ngati tipiriratu tidzankako,
@@ -2332,6 +2352,8 @@ Lemekeza, lemekeza, Mfumu ya mafumuyo.
 VERSE 1
 Mulungu atsogoza ‘ne, ndapuma m’mtima mwangamo.
 Ayang’anira m’njiramo, poyenda ine konseko.
+
+CHORUS
 Mulungu atsogoza ‘ne, ndi dzanja-dzanja lakelo,
 Ndidzamtsatira Mbuyanga, poyenda ine konseko.
                 """.trimIndent(),
@@ -2362,6 +2384,8 @@ Kumene ndidzakhalatu, sindidzaopa imfayo.
 VERSE 1
 Mulungu akhale ndi inu; mpaka tidzaonananso,
 Atsogoze, asunge’nu; Mulungu akhale ndi inu.
+
+CHORUS
 Asunga nonsenu, tikomana ndi Yesu,
 Asunga nonsenu, Mulungu akhale ndi inu.
                 """.trimIndent(),
@@ -2421,6 +2445,8 @@ Tsono timva mauwo, “Osokera, bwerani”.
 VERSE 1
 Mmene Yesu adzasonkhatu, mitundu yonse ya dziko,
 Kodi tidzaima bwanji ‘fe, pa mpando wachiweruzo?
+
+CHORUS
 Adzasonkhanitsa tiriguyo, koma mankhusu adzataya
 Nanga tidzaima bwanji ko, pa tsiku la chiweruzo?
                 """.trimIndent(),
@@ -2458,6 +2484,8 @@ Mindatu yayera kale
 Zinthu zonse zachanso
 Pafupi ndi kutariko
 Mdziko lonse lapansi.
+
+CHORUS
 Mbuye tikupempha Inu,
 Kokosani antchito;
 Atumizeni msangatu,
@@ -2522,6 +2550,8 @@ Tidziwa Yesu ali pa mpando.
 VERSE 1
 Msandipitirire Yesu, ndikupemphani,
 Muli kudalitsa ena, mndidalitse 'ne.
+
+CHORUS
 Yesu, Mbuye, mundimveretu,
 Mmene muitana ena, msandilekatu.
                 """.trimIndent(),
@@ -2554,6 +2584,8 @@ Msaiwale tsiku la Mbuye wathuyo.
 Ndi tsiku lopambana masiku enawo;
 Ndi tsiku lakupuma ndi la chimwemwecho,
 Kuwala kwake kuli kochoka m’mwambamo.
+
+CHORUS
 Tikondwera kudza kwa Sabata lakelo;
 Tikondwera kudza kwa Sabata lakelo.
                 """.trimIndent(),
@@ -2649,6 +2681,8 @@ VERSE 1
 Inu nonse obvutidwa, Mbuye ali panopa,
 M’maso mwanu muli msozi;
 ‘Dzani kwa Mbuyathuyo.
+
+CHORUS
 Yesu ngwa chifundodi,
 E! wafera inutu,
 E! wafera inutu.
@@ -2718,6 +2752,8 @@ VERSE 1
 Yimbiranso kwa Inetu, mau a moyowo;
 Ndionenso za iwotu, Mau a moyowo,
 Mau abwinowo, andiphunzitsatu.
+
+CHORUS
 Mau ake, ozizwitsa, Mau a moyowo,
 Mau ake, abwinowo, Mau a moyowo.
                 """.trimIndent(),
@@ -2745,6 +2781,8 @@ Yesu Mpulumutsi ayeretsa iwe.
 VERSE 1
 Inde ndifuna kumvatu, za chikondano chakecho,
 Cha Yesu Mbuye wangayo, zomwe anamva kalelo.
+
+CHORUS
 E! zina za Yesu, E! zina za Yesu,
 Inde, ndilira m’mtimamo, chipulumutso chakecho.
                 """.trimIndent(),
@@ -2775,6 +2813,8 @@ Udze Ufumu wakewo, Ndiyetu Mfumu ponsepo.
 VERSE 1
 lmva mau a Mpulumutsi, Mau owona a moyo;
 Wosasamalawe kumbukiratu, Odala ali akuchita.
+
+CHORUS
 Odala ochita malamulo, Odalatu odalatu;
 Odala ochita malamulo; Odala ndi akuchita.
                 """.trimIndent(),
@@ -2873,6 +2913,8 @@ Amen.
 VERSE 1
 Kodi Yesu asamalira nkasowa chimwemwe;
 Ndikapsinjika ndi kuda nkhawa, M’njira yonse yaitali?
+
+CHORUS
 Ndidziwa amasamala, Inde ndikabvutika;
 Ndithu masana ndi usiku Amandisamalirane.
                 """.trimIndent(),
@@ -2903,6 +2945,8 @@ Ndiri kuthatha pafupi kufa, Kodi akundionadi?
 VERSE 1
 Konda dzinalo la Yesu, mwana wosauka ‘we,
 Ndilo lothandiza anthu, khala nalo ponse phee.
+
+CHORUS
 Dzina la Yesuyo, lokondwetsa onsewo,
 M’mwambamo, ponsepo, litonthoza m’mtimamo.
                 """.trimIndent(),
@@ -2935,6 +2979,8 @@ Kufunatu E! ndi mtima wonse,
 Kufuna akusokerawo;
 Lalika kuti Yesu anati,
 Idzani nonse kwa Inetu.
+
+CHORUS
 Pitanitu (inde) konse konseko,
 Mukabwere ndi (anthu) osokera;
 M'khola lake la (Yesu) Mpulumutsi,
@@ -2966,6 +3012,8 @@ Kuwatsogolera kwa Yesu.
 VERSE 1
 Kodi mwalandira Yesu anakuferaniyo?
 Afunitsa inu nonse; kodi mumufunanso?
+
+CHORUS
 Kodi mufunatu Yesu? Bvomerani msangatu;
 “Inde, Yesu, ndifunadi ndinu Mbuye wangatu.”
                 """.trimIndent(),
@@ -3039,6 +3087,8 @@ Kweza maso osalira; Yesu akukondadi.
 VERSE 1
 Kodi tidzasonkhanadi, pali mtsinjewo wa moyo,
 Wakuyenda nthawi zonse, kwa Mulungu m’mwambamo.
+
+CHORUS
 Inde, tikomane komwe, ku mtsinje wakukoma wa mulungu
 Tisangane ndi olungama, pa mtsinje m’mwambamo.
                 """.trimIndent(),
@@ -3107,6 +3157,8 @@ Kodi mwalandira Yesu Mbuyeyo?
 Kodi mwasamba m’mwazi wake?
 Mwakhulupirira mwa chisomo ‘ke?
 Kodi mwasamba m’mwazi wake?
+
+CHORUS
 Kodi mwasambamo,
 M’mwazi wabwino wa Yesuyo?
 Kodi mwayeretsa mtima wanuwo?
@@ -3145,6 +3197,8 @@ Kodi mwasamba m’mwazi wake?
 VERSE 1
 Kodi watopa nazo zoipa, lowetsa Yesu mu mtima;
 Ngati ufuna kutembenuka, lowetsa Yesu mu mtima.
+
+CHORUS
 Leka kukayikaku; usamkanenso lero,
 Tsegula mtima wako; lowetsa Yesu mu mtima.
                 """.trimIndent(),
@@ -3185,6 +3239,8 @@ Ndatsegula chitseko, kuti Yesu alowemo.
 VERSE 1
 Kwa inu Yesu ndilira; wopanda Inu ndidzafa;
 Mundipulumutse Mbuye mundilandiretu.
+
+CHORUS
 Mundilandire (Mbuye), mundilandire (Mbuye),
 Mundipulumutse Mbuye, mundilandiretu.
                 """.trimIndent(),
@@ -3217,6 +3273,8 @@ Lalikira mau konse kuli anthu,
 A mtima wosowa a m’dziko latsoka,
 Mkhristu aliyense anene mokondwa;
 Nkhoswe yafikadi!
+
+CHORUS
 Nkhoswe yafikadi, Nkhoswe yafikadi,
 Mzimu wa Mulungu, pangano la Mbuye;
 Lalikira mau konse kuli anthu,
@@ -3262,6 +3320,8 @@ Nkhoswe yafikadi!
 VERSE 1
 Mnenere Yesu Liu; Bwenzi la pamtima,
 Utiuzetu zomwe; Anakuchitira.
+
+CHORUS
 Pomunenera Yesu zidzatithandiza;
 Mau pang’ono pokha, Nena, yimba, pempha.
                 """.trimIndent(),
@@ -3299,6 +3359,8 @@ Mabelo kumwamba! Kuli chimwemwe,
 Akatembenuka wochimwa;
 Tate amuchingamira kunjira,
 Mwana wotopa wosokera.
+
+CHORUS
 Angelo ayimba kumwamba,
 Ulemu, ulemu m’mingoli,
 Opulumukawo abvekedwa mbu,
@@ -3332,6 +3394,8 @@ VERSE 1
 Mudze nazo za chikhumi m’nkhokwe,
 Perekani ndi mitima yanuyo,
 Mulandire madalitso.
+
+CHORUS
 Mudze nazo za chikhumi m’nkhokwe,
 Mndiyese ‘ne, ati Mbuyeyo,
 Ndidzakupatsa madalitso,
@@ -3379,6 +3443,8 @@ M’mawa tidzafesa mbeu zakukoma,
 Msana ndi usiku tidzafesanso,
 Nyengo ya masika tidzatema m’munda,
 Tidzabwera tonse ndi zipatsazo.
+
+CHORUS
 Ndi zipatsozo, ndi zipatsozo,
 Tidzabwera tonse ndi zipatsozo.
                 """.trimIndent(),
@@ -3440,6 +3506,8 @@ Mlengalenga nawonso wada kodi tifere m’madzi
 Kodi simukusamala, mugoneranjiko?
 Pamene ife tiri ndimantha, kodi tifere mmadzi
 Namondweyo andimvera Ine, Bata ndu! (Bata ndu!)
+
+CHORUS
 Ngakhale nyanja zikalipe, ziwanda, anthu, ngakhale zinazo,
 Madzi sangamize bwato Mwini nyanja ndi mtunda ali momwemo;
 Zonse zingondimvera Ine, Bata ndu, Bata ndu!
@@ -3471,6 +3539,8 @@ Ndikafike ku gombe lodala, mukandipumulitse.
 VERSE 1
 Mpulumutsi wozizwitsa ndi Yesu, Mpulumutsi wozizwitsa,
 Andibisira moyo wanga m'thanthwe, ndiona zokondweretsa.
+
+CHORUS
 Andibisira moyo wanga m’thanthwe, Aphimba dziko louma;
 Moyo wanga aika pobisika, Amphimba ndi dzanja lake,
 Am’phimba ndi dzanja lake.
@@ -3575,6 +3645,8 @@ Mmene tipempha kwanuko, mtitsanulire Mzimuyo.
 VERSE 1
 Tidzakomana patsidya, mafunde akadzatha?
 Kowala kosalekeza, kulibe chisoninso?
+
+CHORUS
 Tidzakomanako? Tikakomane patsidya?
 Tikakomane patsidya, Mabvuto akadzatha?
                 """.trimIndent(),
@@ -3605,6 +3677,8 @@ Ubwino tidzaudziwa Ntakhala mu mpando ‘ke.
 VERSE 1
 Taitanidwatu, kuli mtsinje Yordano;
 Ife tinamvadi mau mchipululumo.
+
+CHORUS
 Ife tafikadi kubatizidwamo,
 Kuti titsukidwe mphulupulu zathuzo.
                 """.trimIndent(),
@@ -3637,6 +3711,8 @@ T’yimbe nyimbo yotikondwetsa m’njiramo,
 Tidzafika kwathu msangatu;
 Ndipo posachedwa usiku ‘dzapita,
 Posachedwa tidzafikako.
+
+CHORUS
 Posachedwatu posachedwatu,
 Tidzafika tsidyalo.
 “Dzakomana” ‘fe potha anamodwewa,
@@ -3703,6 +3779,8 @@ Inu munagona m’manda, Yesu mutimveretu.
 VERSE 1
 ‘Tate wathu wakumwamba, natipatsa nyali ‘che,
 Koma atiuza ife, tiwalitse enawo.
+
+CHORUS
 Nyali yanu iwalire, kusonyeza njirayo,
 Kwa ochimwa ndi ofo’ka, njira yonka m’mwambamo.
                 """.trimIndent(),
@@ -3728,8 +3806,10 @@ Atayidwatu mu mdima, akapanda nyaliyo.
 VERSE 1
 Tsamira pa manja a Yesu, akuthangate athangata;
 Ukamkhulupira ndithu, adzakusangalatsa.
-Tsamiratu m’chikondi chake, tsamiratu, yesa chifundo;
+
+CHORUS
 (Sop. & Tenor)
+Tsamiratu m’chikondi chake, tsamiratu, yesa chifundo;
 Tsamiratu, yang’ana m’mwamba, tsamira Mpulumutsi.
                 """.trimIndent(),
                 """
@@ -3759,6 +3839,8 @@ Mtima wake ngwachikondi, maso ake sasinza.
 VERSE 1
 Tsiku la Sabatalo, Mulungu nalipatula;
 Atalenga zonsezo, Mbuye napumulanso.
+
+CHORUS
 Tsiku la Sabatalo, Mulungu nalidalitsa,
 Kukumbutsa ife za mphamuu ya kulengayo.
                 """.trimIndent(),
@@ -3789,6 +3871,8 @@ Kuti athangate, ‘fe kulisunga tsikulo.
 VERSE 1
 Tamani Mulungu mtimamo, wakundifera pansipo,
 Nafafaniza tchimolo, nanditengera dipolo.
+
+CHORUS
 Wandiombola inetu, potaya mwazi wakewo,
 Timlemekeza Iyetu, wotilipira dipolo.
                 """.trimIndent(),
@@ -3862,6 +3946,8 @@ Chipitirire konseko, ndi chikumbutso changacho.”
 VERSE 1
 Ufuna kuwomboledwa kodi? Iripo mphamvu m’mwazi wake;
 Ufuna kugonjetsa zoipa? Muli mphamvu m’mwazi wake.
+
+CHORUS
 Muli mphamvu (m’mwazi) yozizwitsatu, m’mwazi wa Yesuyo;
 Muli mphamuu (m’mwazi) yozizwitsatu,
 M’mwazi wa Mwanawankhosa
@@ -3893,6 +3979,8 @@ Ufuna kumuyimbira lye? Muli mphamvu m’mwazi wake.
 VERSE 1
 Usamanong’ona m’kachisi muno!
 Udzikhala chete, kumvetseratu.
+
+CHORUS
 Nyang’ama (tu), nyang’ama (tu),
 Poyenda muno.
 Popeza (tu) ndi m’nyumba (tu),
@@ -3989,6 +4077,8 @@ Ulemu kwa Mulungu, Ambuye wathu,
 Akonda, napatsa ‘fe Mwana wake;
 Napatsatu moyo kuombola ‘fe,
 Pa khomo la moyo natsegulatu.
+
+CHORUS
 Tamani Mbuyeyo, dziko limvere ‘Ye,
 Tamani Mbuyeyo, Anthu akondwetu;
 Idzani kwa ‘Tate mwa Mwana wake,
@@ -4092,6 +4182,8 @@ Ataomboledwa kosatha: Kodi ndiwe? Kodi ndine?
 VERSE 1
 Wakufetsa ndi kulira, mbeu za chikondicho,
 Wosatopa, wosagona, Yesu amdalitsa ‘ye.
+
+CHORUS
 Ona! m’mera wakukondwa, zinthu zonse zachanso,
 Ona! m’minda mwayeratu, layandika khunkhalo.
                 """.trimIndent(),
@@ -4119,6 +4211,8 @@ Wakonzeka pakubwera Mkwatiyo, Mkwatiyo!
 Wakonzeka pakubwera Mkwatiyo, Mkwatiyo!
 Onani adza; onani adza:
 Konzeka akubwera Mkwatiyo.
+
+CHORUS
 Onani Mkwati, Yesu abweratu!
 Onani Mkwati, Yesu abweratu!
 Yang'ana adza, yang’ana adza!
@@ -4157,6 +4251,8 @@ Yimbani, Aleluya, adzatu.
 VERSE 1
 Wochimwa iwe, bweratu, kwa Yesu, Mbuyeyo;
 Atero Iye, pumatu, umvere mauwo.
+
+CHORUS
 Khulupira mau onse a Mbuyathuyo,
 Uli nawo pakumwera, Inde, moyowo.
                 """.trimIndent(),
@@ -4279,6 +4375,8 @@ Yesu, mundilankhule, mau ofatsawo;
 Mndinong’oneze kuti, sulitu wekha we,
 Mtima munditsegule kuti ndimvere ‘Nu;
 Mdzaze mu mtima mwanga, kuti ndikondwedi.
+
+CHORUS
 Mundinong’onezetu, mwa nsisi zanuzo,
 Udzagonjetsa ndithu, udzamasukadi,
 Mundilankhule, Mbuye, tsiku ndi tsikunso,
@@ -4310,6 +4408,8 @@ Nchite kufuna kwanu, masiku onsewo.
 VERSE 1
 Yesu alikuitana iwe, lero lomwe, lero lomwe;
 Bwanji unasokerera iwe, kutali kutaliko?
+
+CHORUS
 Aitana lero lomwe, Yesu alikuitana iwe tsopano.
 Aitana lero lomwe, aitana lero lomwe;
 Tenor ndi Bass
@@ -4342,6 +4442,8 @@ Okhulupira adzakondwera, podzakomana naye.
 VERSE 1
 Yesu adza kuwerenga ana Ake abwino,
 Ngale zake zowalitsa, okondedwawo.
+
+CHORUS
 Ana omwe angonga nyenyezi za m’mwamba,
 Nadza naye mokondwa, onyezima nye.
                 """.trimIndent(),
@@ -4369,6 +4471,8 @@ Yemwe alikumva! pfuula mau:
 Tumizani mthenga m’dziko monsemo;
 Lalikani anthu kulikonseko:
 Yemwe afuna adze.
+
+CHORUS
 Omwe afuna, omwe afuna
 Uza za chimwemwe m’dambo ndi m’phiri;
 Atate wokonda aitana ‘ke:
@@ -4400,6 +4504,8 @@ Yemwe afuna adze.
 VERSE 1
 Ndasamba mmanja mwanga ndayeretsedwatu,
 Ndikuwapereka iwo, ku ntchito ya Yesu.
+
+CHORUS
 Timapazi inu samalirani
 Musanditengere, kuli zoipa.
                 """.trimIndent(),
@@ -4461,6 +4567,8 @@ Ife tibvomereza, tibweratu.
 VERSE 1
 Yesu nditsata Inu, ndamva mundiitana;
 Nkonda Inu, ndidzadi, munditsogolere.
+
+CHORUS
 Ndikutsatani, ndikutsatani,
 Ndikutsatani komwe mutsogoza.
                 """.trimIndent(),
@@ -4486,9 +4594,12 @@ Ndidzalimbikitsidwa, potsatira Inu.
 VERSE 1
 Yesu wathu Mbuyeyo alandira onsewo,
 Akuipa omwewo, osokera mtalimo.
+
+CHORUS
 Yimba kawiri ndi kawirinso, Yesu Ambuye sakanatu,
 Mvetsa uthenga wabwinowo, wakuchimwa adzetu.
 Yimba, yimbatu, yimba, yimbatu;
+
 Bass ndi Tenor
 Yesu Ambuye, indetu, sakanatu, sakanatu;
 Mvetsa, mvetsadi, E, wabwinowo, wakuchimwa adzetu
@@ -4586,6 +4697,9 @@ Mpaka ndidzafika ku dziko la kumwamba.
 VERSE 1
 Yenda mk’unika kwakeko, atsogolere’we;
 Ndi Mzimu wa kumwambayo 'dzainga mdimawo.
+
+CHORUS
+
 Yendanibe, mkuunikatu;
 Yendanibe, mk'unikatu kwa Mulunguyo.
 Yendanibe mku’nikatu kwa Mulunguyo,
@@ -4623,6 +4737,8 @@ Yesu Bwenzi la ochimwa,
 Yesu wondikondabe,
 Ena samandikwanira,
 Yesu salepherai.
+
+CHORUS
 Aleluya Mpulumutsi!
 Aleluya Bwenzilo!
 Amakonda, amasunga;
@@ -4668,6 +4784,8 @@ Mndikhalitse wanutu.
 VERSE 1
 Yesu andikonda’ne, amatero m’bukumo,
 Akafo’ka mwana ‘ke, amlimbitsa Yesuyo.
+
+CHORUS
 Yesu akonda, akonda ine;
 Akonda ine, atero m’bukumo.
                 """.trimIndent(),
@@ -4735,6 +4853,8 @@ VERSE 1
 Yang’ana pa mtanda kwa Yesuyo, kuti upeze moyowo;
 Chuma cha m'dziko nchakuthatu, chosatha tipeza pa
 mtandapo.
+
+CHORUS
 Poyang'ana Yesuyo, pakuona mtandawo,
 Tingapeze moyowo, poyang'anaYesuyo, (E, Yesuyo).
                 """.trimIndent(),
@@ -4761,6 +4881,8 @@ VERSE 1
 Yesu mnalonjeza, kuti komwetu,
 Asonkhana 'tatu, muli komweko;
 Tikukhulupira, tigwadira 'Nu,
+
+CHORUS
 Yesu, mtidalitse. mkhale nafetu.
 Yesu, mtidalitse, popemphera’fe
 Yesu, mtidalitse, mkhale mfupimo.
@@ -4791,6 +4913,8 @@ Mdzaze 'fe chikondi, ndi ku'nikanso.
 VERSE 1
 Yesu Mombolo wanga, ndinu nyimbo yanga,
 Mpulumutsi wabwino, ndikamabvutika.
+
+CHORUS
 Yesu Mombolo wanga, ndiyimbira Inu;
 Palibe Bwenzi lina, ndikondana nalo.
                 """.trimIndent(),
@@ -4886,6 +5010,8 @@ Masabata onsewo alingane momwemo.
 VERSE 1
 Mombolo akhale nane, kwenda ndekha sinditha;
 Akhale pafupi nane, an'gwire m'dzanja lake.
+
+CHORUS
 Sindizaopa nthenda (E! nthenda), akanditsogolera (tsogoza);
 N'dzapita wosang'ung'udza, kutsata mapazi 'ke.
                 """.trimIndent(),
@@ -4918,6 +5044,8 @@ M'modzi nalola kufa m'malo mwa ine,
 Wosayenera 'ne ndikhale,
 Njira yopita ku mtanda anayenda,
 Anandikhululukiradi.
+
+CHORUS
 Zochimwa pa mtanda, zochimwa pa mtanda,
 Anapirira koposadi! Nasauka nafa,
 Pa mtandapo Yesu! Anasenza machimo anga
